@@ -1,12 +1,12 @@
 [
-{"section_id":"finstats",
-"section_header":"Financial Statements",
-"section_type":"standard_title",
-"section_prefix":"Entry for : "
-},
 {"section_id":"minutes",
 "section_header":"Minutes",
 "section_type":"date_title",
 "section_prefix":"Minutes for : "
+},
+{"section_id":"policies",
+"section_header":"Policies",
+"section_type":"standard_title",
+"section_prefix":"Policy for : "
 }
 ]
