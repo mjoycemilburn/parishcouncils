@@ -89,18 +89,18 @@
                 <table style="width: 70%; margin: 2vh auto 2vh auto; border: 1px solid black; padding: 1.5vh; border-collapse: separate; background: white;">
                     <tr>
                         <td><p id = "entriesbutton" class="launchpadlink" style = "width: 12em;" title="Add/remove/edit Entries for Sections">
-                                <a onclick = "displayCurrentSectionUpdateView('anchor');">Manage Entries<br>
+                                <a onclick = "displayEntriesUpdateView('anchor', '');">Manage Entries<br>
                                 </a>
                                 <span id ="entriesbuttonpicklist"></span>
                             </p>
                         </td>
                         <td>
                             <a id = "carouselbutton" class="launchpadlink" title="Add/remove/reorder/edit Slides within the Carousel"
-                               onclick = "updateTarget = 'carousel'; displayCarouselUpdateView();">Configure<br>Carousel</a>
+                               onclick = "anchorTarget = 'carousel'; displayCarouselUpdateView('');">Configure<br>Carousel</a>
                         </td>
                         <td>
                             <a id = "sectionsbutton" class="launchpadlink" title="Add/remove/reorder/edit Sections"
-                               onclick = "updateTarget = 'sections'; displaySectionsUpdateView();">Configure<br>Sections</a>
+                               onclick = "anchorTarget = 'sections'; displaySectionsUpdateView('');">Configure<br>Sections</a>
                         </td>
                         <td>
                             <a id = "viewbutton" class="launchpadlink" title="Launch the website in a popup"
@@ -120,26 +120,6 @@
 
         <!--  ++++++++++++  Support popups   ++++++++++++++++++++++++++ -->
 
-        <div id = "savetypechangewarning" style ="
-             display: none; width: 45vw;
-             position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0; top: 50vh; 
-             padding: 3vh 2vw 2vh 2vw; border: 1px solid black; 
-             text-align: center;
-             background: white;
-             z-index: 10;">
-            <p>Changing the type of this Section will have an effect on the titles
-                of any Entries in the section. Changing the type for a standard_title
-                section will cause titles for entries for the section
-                to be replaced by dummy dates. Changing
-                the type for a date_title section will cause the date elements of the titles
-                for its entries to be replaced by a counter.
-            </p>
-            <button type="button" class="ml-2 mr-2 btn-sm btn-primary" 
-                    title="Click to confirm and close the popup" 
-                    onmousedown="savetypechangewarning.style.display = 'none';">Ok
-            </button>
-        </div>
-
         <script>
 
             function applyDatepicker(elementId) {
@@ -158,13 +138,11 @@
 
             function launchUpdateView() {
 
-                // Build the picklist and then display the current Section Update View
+                // Build the picklist and then display the current anchorTarget Update View
 
                 var form = document.forms.namedItem("dummyform");
                 var oData = new FormData(form);
                 oData.append("helper_type", "build_section_picklist");
-                // if there's a value for lastsectionid in local storage, set this
-
                 currentSectionId = '';
                 if (localStorage.getItem('pcouncillastsectionid')) {
                     currentSectionId = localStorage.getItem('pcouncillastsectionid');
@@ -184,9 +162,26 @@
                             alert(response);
                         } else {
                             document.getElementById('entriesbuttonpicklist').innerHTML = response;
-                            // display updateview for the last section used
-                            updateTarget = 'entries';
-                            displayCurrentSectionUpdateView('anchor');
+                            // if the system has just initialised itself, point the update display
+                            // at sections', otherwise default to tbe last section used in 'entries'
+
+                            var selectedSectionId = sectionspicklist.options[sectionspicklist.selectedIndex].value;
+                            if (selectedSectionId == "default") {
+                                // initialise 'pcouncillastsectionid'
+                                localStorage.setItem('pcouncillastsectionid', 'default');
+                                displaySectionsUpdateView(" ")
+
+                            } else {
+
+                                if (anchorTarget == "sections") {
+                                    displaySectionsUpdateView('');
+                                } else {
+
+                                    // display updateview for the last section used - note that if the system
+                                    // has not yet been initialised then currentSectionId will still be ''
+                                    displayEntriesUpdateView('anchor', '');
+                                }
+                            }
                         }
                     }
                 };
@@ -195,9 +190,9 @@
 
             var currentSectionId;
             var currentSectionType;
-            function displayCurrentSectionUpdateView(entryPoint) {
+            function displayEntriesUpdateView(entryPoint, message) {
 
-                // entryPoint tells you if yu've entered for the Anchor button ("anchor")
+                // entryPoint tells you if you've entered for the Anchor button ("anchor")
                 // or from the options select element ("select")
 
                 if (entryPoint == "anchor") {
@@ -235,6 +230,7 @@
                             alert(response);
                         } else {
                             document.getElementById('currentcontrol').innerHTML = response;
+                            displaySuccessMessage(message);
                             localStorage.setItem('pcouncillastsectionid', currentSectionId);
                             // the sectionType for currentSectionId is tucked away in a hidden span in the html you've
                             // just placed in currentcontrol
@@ -256,10 +252,8 @@
                 }
 
                 var entryFilename = document.getElementById("entryfilename").value;
-
                 if (!validEntry(currentSectionType, entryDate, entrySuffix, entryTitle, entryFilename))
                     return;
-
                 var form = document.forms.namedItem('entryform');
                 var oData = new FormData(form);
                 oData.append("helper_type", "insert_entry");
@@ -289,7 +283,7 @@
                             if (response.indexOf("Oops") != -1) {
                                 displayFailureMessage(response);
                             } else {
-                                displayCurrentSectionUpdateView('anchor');
+                                displayEntriesUpdateView('anchor', "Insert succeeded");
                             }
                         }
                     }
@@ -304,7 +298,6 @@
                 var entryTitle = '';
                 var currentEntryFilename = document.getElementById('currententryfilename' + entryIndex).innerHTML;
                 var entryFilename = currentSectionId;
-
                 if (currentSectionType == "date_title") {
                     entryDate = document.getElementById("entrydate" + entryIndex).value;
                     entrySuffix = document.getElementById("entrysuffix" + entryIndex).value;
@@ -317,10 +310,8 @@
                     entryFilename += "_" + entryTitle;
                 }
                 entryFilename += ".pdf";
-
                 if (!validEntry(currentSectionType, entryDate, entrySuffix, entryTitle, entryFilename))
                     return;
-
                 var form = document.forms.namedItem("entryform" + entryIndex);
                 var oData = new FormData(form);
                 oData.append("helper_type", "update_entry");
@@ -338,7 +329,6 @@
                 if (document.getElementById("entryfilename" + entryIndex).value != '')
                     sourceStatus = "new source file provided";
                 oData.append("source_status", sourceStatus);
-
                 var oReq = new XMLHttpRequest();
                 oReq.open("POST", "php/manager_helpers.php", true);
                 oReq.onload = function (oEvent) {
@@ -356,7 +346,7 @@
                             if (response.indexOf("Oops") != -1) {
                                 displayFailureMessage(response);
                             } else {
-                                displayCurrentSectionUpdateView('anchor');
+                                displayEntriesUpdateView('anchor', "Update succeded");
                             }
                         }
                     }
@@ -398,7 +388,6 @@
                     return false;
                 }
                 return true;
-
             }
 
             function checkForImpermissibleCharacter(characterString) {
@@ -436,7 +425,6 @@
                 if (characterString.includes('='))
                     illegalChar = '=';
                 return illegalChar;
-
             }
 
             function deleteEntry(filename) {
@@ -459,14 +447,14 @@
                         if (response.indexOf("%failed%") != -1) {
                             alert(response);
                         } else {
-                            displayCurrentSectionUpdateView('anchor');
+                            displayEntriesUpdateView('anchor', "Delete succeded");
                         }
                     }
                 };
                 oReq.send(oData);
             }
 
-            function displayCarouselUpdateView() {
+            function displayCarouselUpdateView(message) {
 
                 var form = document.forms.namedItem("dummyform");
                 var oData = new FormData(form);
@@ -486,6 +474,7 @@
                             alert(response);
                         } else {
                             document.getElementById('currentcontrol').innerHTML = response;
+                            displaySuccessMessage(message);
                             new Sortable(slidessortablelist, {
                                 animation: 150,
                                 ghostClass: 'sortable-ghost'
@@ -502,7 +491,6 @@
                 var oData = new FormData(form);
                 oData.append("helper_type", "update_website_title");
                 oData.append("website_title", document.getElementById('websitetitle').value);
-
                 var oReq = new XMLHttpRequest();
                 oReq.open("POST", "php/manager_helpers.php", true);
                 oReq.onload = function (oEvent) {
@@ -517,7 +505,7 @@
                         if (response.indexOf("%failed%") != -1) {
                             alert(response);
                         } else {
-                            displayCarouselUpdateView('anchor');
+                            displayCarouselUpdateView('Update succeeded');
                         }
                     }
                 };
@@ -553,7 +541,6 @@
                 var oData = new FormData(form);
                 oData.append("helper_type", "insert_slide");
                 oData.append("slide_title", slideTitle);
-
                 var oReq = new XMLHttpRequest();
                 oReq.open("POST", "php/manager_helpers.php", true);
                 oReq.onload = function (oEvent) {
@@ -571,7 +558,7 @@
                             if (response.indexOf("Oops") != -1) {
                                 displayFailureMessage(response);
                             } else {
-                                displayCarouselUpdateView('anchor');
+                                displayCarouselUpdateView('Insert succeeded');
                             }
                         }
                     }
@@ -599,12 +586,10 @@
                 oData.append("helper_type", "update_slide");
                 oData.append("slide_index", slideIndex);
                 oData.append("slide_title", slideTitle);
-
                 var sourceStatus = "source file not provided";
                 if (document.getElementById("slidefilename" + slideIndex).value != '')
                     sourceStatus = "new source file provided";
                 oData.append("source_status", sourceStatus);
-
                 var oReq = new XMLHttpRequest();
                 oReq.open("POST", "php/manager_helpers.php", true);
                 oReq.onload = function (oEvent) {
@@ -622,7 +607,7 @@
                             if (response.indexOf("Oops") != -1) {
                                 displayFailureMessage(response);
                             } else {
-                                displayCarouselUpdateView();
+                                displayCarouselUpdateView("Update succeeded");
                             }
                         }
                     }
@@ -633,12 +618,10 @@
             function deleteSlide(slideIndex) {
 
                 var slideTitle = document.getElementById('slidetitle' + slideIndex).value;
-
                 message = "Do you really want to delete the slide for '";
                 message += slideTitle + "'";
                 if (!confirm(message))
                     return;
-
                 var form = document.forms.namedItem("slideform" + slideIndex);
                 var oData = new FormData(form);
                 oData.append("helper_type", "delete_slide");
@@ -660,7 +643,7 @@
                             if (response.indexOf("Oops") != -1) {
                                 displayFailureMessage(response);
                             } else {
-                                displayCarouselUpdateView();
+                                displayCarouselUpdateView("Delete suucceeded");
                             }
                         }
                     }
@@ -671,18 +654,15 @@
             function reorderSlides() {
 
                 var slides = document.getElementsByClassName('slideentry');
-
                 var slidesPrecursorJson = "[";
                 for (var i = 0; i < slides.length; i++) {
 
                     var j = slides[i].innerHTML;
-
                     slidesPrecursorJson += '{';
                     slidesPrecursorJson += '"slide_title" : "' + document.getElementById('slidetitle' + j).value + '"},';
                 }
                 slidesPrecursorJson = slidesPrecursorJson.substring(0, slidesPrecursorJson.length - 1);
                 slidesPrecursorJson += "]";
-
                 var form = document.forms.namedItem("dummyform");
                 var oData = new FormData(form);
                 oData.append("helper_type", "reorder_slides");
@@ -701,7 +681,7 @@
                         if (response.indexOf("%failed%") != -1) {
                             alert(response);
                         } else {
-                            displayCarouselUpdateView();
+                            displayCarouselUpdateView("Reorder succeeded");
                         }
                     }
                 }
@@ -709,7 +689,11 @@
                 oReq.send(oData);
             }
 
-            function displaySectionsUpdateView() {
+            function displaySectionsUpdateView(message) {
+                
+                // the message parameter is supplied by the calling routine to
+                // to signal successful outcome of whatever operation preceded
+                // the function call
 
                 var form = document.forms.namedItem("dummyform");
                 var oData = new FormData(form);
@@ -729,6 +713,7 @@
                             alert(response);
                         } else {
                             document.getElementById('currentcontrol').innerHTML = response;
+                            displaySuccessMessage(message);
                             new Sortable(sectionssortablelist, {
                                 animation: 150,
                                 ghostClass: 'sortable-ghost'
@@ -789,7 +774,8 @@
                             if (response.indexOf("Oops") != -1) {
                                 displayFailureMessage(response);
                             } else {
-                                displaySectionsUpdateView();
+                                // need to rebuild the pickist, so run launchUpdateView
+                                launchUpdateView();
                             }
                         }
                     }
@@ -797,13 +783,40 @@
                 oReq.send(oData);
             }
 
+            var saveTypeChanged = false;
             function updateSection(sectionIndex) {
+                
+                // the code below is very unsatisfactory but attempts using confirm or popup messages
+                // to display the warning message when the radio button was clicked failed unpredictably - 
+                // It seemed (in Chrome at least) that the "toggling" action of the radio buttons was 
+                // "eaten" by the function call - but not every time! Mysteriously, only the radio buttons
+                // on the first section displayed seemed to be affected
+                
+                message = "Changing the type of this Section will have an effect on the titles ";
+                message += "of any Entries in the section. Changing the type for a standard_title ";
+                message += "section will cause titles for entries for the section ";
+                message += "to be replaced by dummy dates. Changing ";
+                message += "the type for a date_title section will cause the date elements of the titles ";
+                message += "for its entries to be replaced by a counter. ";
+
+                if (saveTypeChanged) {
+                    if (!confirm(message)) {
+                        displaySectionsUpdateView(" ");
+                        return;
+                    }
+                    saveTypeChanged = false;
+                }
 
                 var form = document.forms.namedItem("dummyform");
                 var oData = new FormData(form);
+                // SectionId may be about to change - note the current and (potentially) new values
+                var currentSectionId = document.getElementById('sectionid' + sectionIndex).placeholder;
+                var newSectionId = document.getElementById('sectionid' + sectionIndex).value;
+
                 oData.append("helper_type", "update_section");
                 oData.append("section_index", sectionIndex);
-                oData.append("section_id", document.getElementById('sectionid' + sectionIndex).innerHTML.trim());
+                oData.append("section_id_old", currentSectionId);
+                oData.append("section_id_new", newSectionId);
                 oData.append("section_header", document.getElementById('sectionheader' + sectionIndex).value);
                 oData.append("section_prefix", document.getElementById('sectionprefix' + sectionIndex).value);
                 if (document.getElementById('sectiontypedate' + sectionIndex).checked) {
@@ -829,7 +842,16 @@
                             if (response.indexOf("Oops") != -1) {
                                 displayFailureMessage(response);
                             } else {
-                                displaySectionsUpdateView();
+                                // if we've just renamed the section update the picklist
+                                if (currentSectionId != newSectionId) {
+                                    // if the local storage item is pointing to the current section, reest this, too
+                                    if (localStorage.getItem('pcouncillastsectionid') == currentSectionId) {
+                                        localStorage.setItem('pcouncillastsectionid', newSectionId);
+                                    }
+                                    launchUpdateView();
+                                } else {
+                                    displaySectionsUpdateView("Update succeedeed");
+                                }
                             }
                         }
                     }
@@ -837,21 +859,13 @@
                 oReq.send(oData);
             }
 
-            var savetypechangewarning = document.getElementById('savetypechangewarning');
-            function sendSaveTypeChangeWarning() {
-
-                // attempts to use 'confirm' to display the popup failed because it clocked
-                // the operation of the radio button
-                savetypechangewarning.style.display = "block";
-            }
-
+            var sectionIdofDeletionTarget;
             function deleteSection(sectionIndex) {
 
-                message = "Do you really want to delete the checked section(s)? Any associated ";
+                message = "Do you really want to delete section " + sectionIdofDeletionTarget + ". ";
                 message += "Entry files will also be deleted. ";
                 if (!confirm(message))
                     return;
-
                 var form = document.forms.namedItem("dummyform");
                 var oData = new FormData(form);
                 oData.append("helper_type", "delete_section");
@@ -873,7 +887,12 @@
                             if (response.indexOf("Oops") != -1) {
                                 displayFailureMessage(response);
                             } else {
-                                displaySectionsUpdateView();
+                                // if we've just deleted the current section, unset local storage. In
+                                // any case, use launchUpdateView to rebuild picklist
+                                if (localStorage.getItem('pcouncillastsectionid') == sectionIdofDeletionTarget) {
+                                    window.localStorage.removeItem('pcouncillastsectionid');
+                                }
+                                launchUpdateView();
                             }
                         }
                     }
@@ -881,17 +900,15 @@
                 oReq.send(oData);
             }
 
-            function reorderSections(sectionIndex) {
+            function reorderSections() {
 
                 var sections = document.getElementsByClassName('sectionentry');
-
                 var sectionsPrecursorJson = "[";
                 for (var i = 0; i < sections.length; i++) {
 
                     var j = sections[i].innerHTML;
-
                     sectionsPrecursorJson += '{';
-                    sectionsPrecursorJson += '"section_id" : "' + (document.getElementById('sectionid' + j).innerHTML).trim() + '",';
+                    sectionsPrecursorJson += '"section_id" : "' + document.getElementById('sectionid' + j).value + '",';
                     sectionsPrecursorJson += '"section_header" : "' + document.getElementById('sectionheader' + j).value + '",';
                     sectionsPrecursorJson += '"section_prefix" : "' + document.getElementById('sectionprefix' + j).value + '",';
                     if (document.getElementById('sectiontypedate' + j).checked) {
@@ -902,7 +919,6 @@
                 }
                 sectionsPrecursorJson = sectionsPrecursorJson.substring(0, sectionsPrecursorJson.length - 1);
                 sectionsPrecursorJson += "]";
-
                 var form = document.forms.namedItem("dummyform");
                 var oData = new FormData(form);
                 oData.append("helper_type", "reorder_sections");
@@ -921,7 +937,7 @@
                         if (response.indexOf("%failed%") != -1) {
                             alert(response);
                         } else {
-                            displaySectionsUpdateView();
+                            displaySectionsUpdateView("Reorder succeded");
                         }
                     }
                 }
@@ -929,7 +945,7 @@
                 oReq.send(oData);
             }
 
-            var updateTarget;
+            var anchorTarget;
             function clearMessageArea() {
 
                 document.getElementById('messagearea').innerHTML = '';
@@ -956,8 +972,6 @@
                 dateObject = new Date();
                 currentTime = dateObject.getTime();
                 var hreflink = 'entries/' + filename + "?" + currentTime;
-
-
                 // open links in new window unless this already exists, in which case overwrite
 
                 window.open(hreflink, "milburnpc")
@@ -974,7 +988,6 @@
 
             window.onload = function () {
                 launchUpdateView();
-
             }
 
         </script>

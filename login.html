@@ -38,7 +38,7 @@
                     <form style="border: solid; width: 100%; padding: 3vh 1vw 4vh 1vw; margin: 4vh auto 5vh auto;">        
                         <p>
                             <label id = "passwordlabel" class = "formlabel">Password:</label>&nbsp;&nbsp;
-                            <input  id = "password" type="password" title="Your personal password" maxlength="12" size="12" onkeyup = "clearAllErrors();">
+                            <input id = "password" autofocus type="password" title="Your personal password" maxlength="12" size="12" onkeyup = "clearAllErrors();">
                         </p>
                         <p id = "loginpanelmessage" style = "width: 30vw; display: none;">&nbsp;
                         </p>
@@ -57,7 +57,6 @@
             }
 
             password = document.getElementById('password');
-
             function loginWithUserCredentials() {
 
                 // we've clicked a button on the form, so this means native form events are fired also
@@ -90,11 +89,11 @@
                 oReq.send(oData);
             }
 
-
             window.onload = function () {
+                // autofocus doesn't always seem towork - force the pace
+                var temp = document.getElementById("password").focus();
+            }
 
-
-            };
 
 
         </script>  
