@@ -116,9 +116,9 @@ function rewrite_sections_configuration_file() {
 
     require ('../includes/pc_globals.php');
 
-    $sections_json = json_encode($sections_precursor);
+    $sections_precursor_json = json_encode($sections_precursor);
 
-    if (file_put_contents('../configurations/sections_configuration.txt', $sections_json)) {
+    if (file_put_contents('../configurations/sections_configuration.txt', $sections_precursor_json)) {
         return true;
     } else {
         return false;
