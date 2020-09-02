@@ -1,0 +1,16 @@
+[
+    {
+      "slide_title":"Milburn Village from the air (courtesy visitcumbria.com)"
+    },
+    {
+      "slide_title":"Milburn Village Church (courtesy visitcumbria.com)"
+    },
+    {
+      "slide_title":"Milburn Village School (courtesy visitcumbria.com)"
+    },
+    {
+      "slide_title":"Milburn Village Hall"
+    }
+]
+
+   
