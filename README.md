@@ -3,7 +3,7 @@ website.
 
 Many councils rose enthusiastically to the challenge of advertising their community and, consequently, a rich assembly of websites soon appeared.
 
-Sadly, however, enthusiasm has generally since waned considerably. For one thing, while developing a website is fun, maintaining it subsequently is a chore. In the case of Parish COunci sites, new information arises in a continuous stream and, once the original site developers have moved on to fresh, more exciting challenges, the job of maintenance falls to individuals with less interest in technical matters and fewer skills.
+Sadly, however, enthusiasm has generally waned considerably since. For one thing, while developing a website is fun, maintaining it subsequently is a chore. In the case of Parish COunci sites, new information arises in a continuous stream and, once the original site developers have moved on to fresh, more exciting challenges, the job of maintenance falls to individuals with less interest in technical matters and fewer skills.
 
 Meanwhile, the range and depth of skill required to deliver a professional website have broadened and deepened. For one thing whereas in the past it would have been sufficient to produce a site that looked good on a desktop computer, one now needs to cater for smaller-screen devices such as Apple iphones. On the other hand, the range of government requirement has steadily widened. The latest iteration has introduced a requirement for websites to be "accessible" in the sense that they are usable by individuals with limb and eyesight disaiities. These are worthy aspirations but potentially ones with significant implication for Council budgets since it is likely that many Parish Councils will opt to sub-contract the work to commercial third parties.
 
