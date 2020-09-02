@@ -1,0 +1,11 @@
+Configuration and maintenance of a parishcouncil website is carried out using the manager.html file. This is accessed by typing in its url - eg newbigginparishcouncil.com/manager.html. You might find it useful to create a bookmark for this url.
+
+Once the system has logged you in (and please be aware that unattended session will timeout, so be prepared to signin again if requested later) you are presented with a screen such as the one shown below:
+
+There are three elements to the system  - carousel slide, website sections and section entries. The  manager.html provides a mechanism for controlling each element. Additionally, since it's sometimes useful to get the website's view of the information, there's a facility to quickly pull up a snapshot in a popup window. Here's a quick summary of the  three elements:
+
+Carousel slides is a collection of graphic files that can use to give a flavour of your community to the eager public. Each can be displayed with a short caption to announce what it depicts. The initial github system installation includes a pair of typical graphics so the slide carousel will work from the outset
+
+Website sections are used to define the filing structure of your website. Typically, for example you would have section for Minutes and another for Policies. You can have as many sections as you like and, once you have defined them, you can arrange for them to be displayed in any sequence that you choose. The system as installed includes both a Minutes and a Policies section
+
+Website entries define the individual documents refereneced by a section - typically a pdf file containing the minutes for a meeting. Sample Minutes and Policies entries are included in the installation file set.
