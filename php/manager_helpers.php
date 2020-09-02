@@ -27,7 +27,7 @@ require('../includes/pc_functions.php');
 #
 # 'delete_slide'                        -   delete the given slides
 #
-# 'reorder_slides'                      -   reorder the selides_configuration.txt file from the screen Dom
+# 'reorder_slides'                      -   reorder the slides_configuration.txt file from the screen Dom
 # 
 # 'build_entries_update_table'          -   build html to create/edit/delete/reorder entries for the given
 #                                           section                                                          
@@ -69,20 +69,53 @@ if ($helper_type == "build_section_picklist") {
 
     build_sections_array_from_files();
 
-    $current_section_id = $_POST['current_section_id'];
+
+// things get messy from here on in if the array_build function has returned an empty array - which
+// is prefectly permissible if the user has just deleted the last section! To put things on an even 
+// keel again, the answer seems to be to be to invoke a system-initialisation routine here that
+// puts a "default" section into the (empty) sections_configuration file
+
+    if (count($sections_precursor) == 0) {
+        $sections_precursor[0] = array('section_id' => 'default', 'section_type' => 'standard_title', 'section_header' => 'default', 'section_prefix' => '');
+        if (!rewrite_sections_configuration_file()) {
+            echo "Oops!  rewrite %failed% in build_section_picklist.";
+            exit(0);
+        }
+        $current_section_id = "default";
+    } else {
+        $current_section_id = $_POST['current_section_id'];
+    }
+
+    // the routine aims to return a <select> element listing the sections found in $sections_precursor
+    // as selectable options. The option for the section passed in the current_section_id parameter is
+    // expected to be pre-selected. This parameter in turn has been retrieved from pc local storage
+    // and is expected to be the last section visited. But what if something has gone wrong and this
+    // section is no longer valid. It seems a good idea to build a little resilience here. The code
+    // below selects the first entry in $sections if the current_section_id parameter cannot be found
+    // elsewhere in the array.
+
+    $current_section_id_index = 0;
+    for ($i = 0; $i < count($sections_precursor); $i++) {
+
+        $section_id = $sections_precursor[$i]['section_id'];
+
+        if ($section_id == $current_section_id) {
+            $current_section_id_index = $i;
+        }
+    }
 
     $return = "
         <label for ='sectionspicklist'
             title = 'Select the section for the Entry you want to manage'>
             Section : 
         </label>
-        <select id='sectionspicklist'  onchange= 'displayCurrentSectionUpdateView(\"select\");'>";
+        <select id='sectionspicklist'  onchange = 'displayEntriesUpdateView(\"select\", \" \");'>";
 
-    for ($i = 0; $i < count($sections); $i++) {
+    for ($i = 0; $i < count($sections_precursor); $i++) {
 
-        $section_id = $sections[$i]['section_id'];
-
-        if ($section_id == $current_section_id) {
+        $section_id = $sections_precursor[$i]['section_id'];
+        
+        if ($i == $current_section_id_index) {
             $return .= "<option selected value = '$section_id'>$section_id</option>";
         } else {
             $return .= "<option value = '$section_id'>$section_id</option>";
@@ -100,13 +133,14 @@ if ($helper_type == "build_sections_update_table") {
 
     build_sections_array_from_files();
 
+
 // The html for the update and insert sections generated below look a bit complicated
 // because we're using sortableJS to implement the "drag and drop" mechanism used
 // to manage section order. SortableJS is a javascript library downloaded from Github.
 // See https://www.solodev.com/blog/web-design/how-to-create-sortable-lists-with-sortablejs.stml for example
 
     $return = "
-        <h2 style='text-align: center;'>Configure sections screen</h2>
+        <h2 style='text-align: center;'>Configure Sections screen</h2>
         <p id = 'messagearea' style = 'text-align: center; padding-top: .5vh; padding-bottom: .5vh; margin-top: 0; margin-bottom: 0;'></p>";
 
 // first create a section insert block
@@ -170,7 +204,13 @@ if ($helper_type == "build_sections_update_table") {
                     <div class='list-group-item mb-0 pb-0'>
                         <form>
                             <span id = 'section$i' class = 'sectionentry' style = 'display: none;'>$i</span> 
-                            <p id = 'sectionid$i' style='display: inline-block; width: 8rem; font-weight: bold; text-align: center; border: 1px solid black;'> $section_id</p>
+                            <label for = 'sectionid$i'>&nbsp;&nbsp;Id :&nbsp;</label>
+                            <input type='text' maxlength='10' size='8' id = 'sectionid$i' 
+                                autocomplete='off' 
+                                value = '$section_id'
+                                placeholder = '$section_id'
+                                title='Enter a short tag for the section - eg finstats'
+                                onmousedown='clearMessageArea();'>
                             <label for ='sectionheader$i'>&nbsp;&nbsp;Header :&nbsp;</label> 
                             <input type='text' maxlength='30' size='15' id='sectionheader$i' 
                                 autocomplete='off' value='$section_header' 
@@ -189,24 +229,24 @@ if ($helper_type == "build_sections_update_table") {
                             <input type = radio id = 'sectiontypedate$i' name = 'sectiontype$i'
                                    value = 'date_title' checked
                                    title= 'check this button to include a date in section entry titles'
-                                   onmousedown =  'clearMessageArea(); sendSaveTypeChangeWarning();'>
+                                   onmousedown =  'clearMessageArea(); saveTypeChanged = true;'>
                             <label for ='standardtypedate$i'>&nbsp;&nbsp;Standard type&nbsp;</label>
                             <input type = radio id = 'sectiontypestandard$i' name = 'sectiontype$i'
                                    value = 'standard_title'
                                    title= 'check this button if you do not need dates in section entry titles'
-                                   onmousedown =  'clearMessageArea(); sendSaveTypeChangeWarning();'>";
+                                   onmousedown =  'clearMessageArea(); saveTypeChanged = true;'>";
         } else {
             $return .= "
                             <label for ='sectiontypedate$i'>&nbsp;&nbsp;Date type&nbsp;</label> 
                             <input type = radio id = 'sectiontypedate$i' name = 'sectiontype$i'
                                    value = 'date_title' 
                                    title= 'check this button to include a date in section entry titles'
-                                   onmousedown =  'clearMessageArea(); sendSaveTypeChangeWarning();'>
+                                   onmousedown =  'clearMessageArea(); saveTypeChanged = true;'>
                             <label for ='standardtypedate$i'>&nbsp;&nbsp;Standard type&nbsp;</label>
                             <input type = radio id = 'sectiontypestandard$i' name = 'sectiontype$i'
                                    value = 'standard_title' checked
                                    title= 'check this button if you do not need dates in section entry titles'
-                                   onmousedown =  'clearMessageArea(); sendSaveTypeChangeWarning();'>";
+                                   onmousedown =  'clearMessageArea(); saveTypeChanged = true;'>";
         }
         $return .= "
                             <button id = 'updatebutton$i'  type='button' class='ml-2 mr-2 btn-sm btn-primary'
@@ -215,7 +255,7 @@ if ($helper_type == "build_sections_update_table") {
                             </button>
                             <button id = 'deletebutton'  type='button' class='btn-sm btn-primary' style = 'margin-left: 2vw;'
                                 title='Delete the section'
-                                onmousedown='deleteSection($i);'>Delete
+                                onmousedown='sectionIdofDeletionTarget = \"$section_id\"; deleteSection($i);'>Delete
                             </button>
                         </form>
                     </div>
@@ -281,15 +321,65 @@ if ($helper_type == "insert_section") {
 
 if ($helper_type == "update_section") {
 
-    $section_index = $_POST['section_index']; // the new $sections_json corresponds to the section_index'th in the current config
-    $section_id = $_POST['section_id'];
+    $section_index = $_POST['section_index']; // this update is for the section_index'th entry in the current sections_config
+    $section_id_old = $_POST['section_id_old'];
+    $section_id_new = $_POST['section_id_new'];
     $section_header = $_POST['section_header'];
     $section_prefix = $_POST['section_prefix'];
     $section_type = $_POST['section_type'];
 
+
 // get the existing representation of the sections
 
     build_sections_array_from_files();
+
+    // if the section_id is changing, check that section_id_new is unique
+
+    if ($section_id_new != $section_id_old) {
+
+        $section_id_new_is_unique = true;
+
+        for ($i = 0; $i < count($sections); $i++) {
+
+            if ($i != $section_index && $section_id_new == $sections[$i]['section_id']) {
+                $section_id_new_is_unique = false;
+                echo "Oops - new section_id is not unique";
+                exit(0);
+            }
+        }
+
+        // OK , it's unique - update both $sections_precursor and $sections for for the section
+
+        $sections_precursor[$section_index]['section_id'] = $section_id_new;
+        $sections[$section_index]['section_id'] = $section_id_new;
+
+        // now update the name of every file for the old section_id
+
+        if ($files = scandir('../entries')) {
+
+            for ($i = 0; $i < count($files); $i++) {
+
+                $pieces = explode("_", $files[$i]);
+                $entry_section_id = $pieces[0];
+
+                if ($entry_section_id == $section_id_old) {
+
+                    $current_filename = $files[$i];
+
+                    $temp = ltrim($current_filename, $section_id_old);
+                    $new_filename = $section_id_new . $temp;
+                    pr($current_filename);
+                    pr($new_filename);
+                    if (!rename("../entries/$current_filename", "../entries/$new_filename")) {
+                        echo "Oops! rename %failed% in update_section for file $current_filename.";
+                        exit(1);
+                    }
+                }
+            }
+        } else {
+            echo "Oops! scandir %%failed%% in update_section.";
+        }
+    }
 
 // if section_type has changed for a section, transmit the consequences
 // to the filenames of the associated entries
@@ -313,7 +403,7 @@ if ($helper_type == "update_section") {
                 $new_title = $sections[$section_index]['section_id'] . "_" . $dummy_date . "_" . $naked_title . ".pdf";
 
                 if (!rename("../entries/$existing_title", "../entries/$new_title")) {
-                    echo "Oops! rename %%failed%% in save_sections for file $existing_title.";
+                    echo "Oops! rename %failed% in update_section for file $existing_title.";
                     exit(1);
                 }
 
@@ -347,7 +437,6 @@ if ($helper_type == "update_section") {
 
 // update the sections entry in the current $sections_precursor
 
-    $sections_precursor[$section_index]['section_id'] = $section_id;
     $sections_precursor[$section_index]['section_header'] = $section_header;
     $sections_precursor[$section_index]['section_prefix'] = $section_prefix;
     $sections_precursor[$section_index]['section_type'] = $section_type;
@@ -400,6 +489,20 @@ if ($helper_type == "delete_section") {
 // remove the section_index'th entry
 
     unset($sections_precursor[$section_index]);
+
+// there's a problem now as we want to encode the precursor befor writing to file, but since the
+// keys aren't seqeuential now (in general at least), json_encode will encode to a JSON object rather
+// than a JSON array. Drat. Pack the array.
+
+    $temp = array();
+    $j = 0;
+
+    foreach ($sections_precursor as $key => $value) {
+        $temp[$j] = $sections[$key];
+        $j++;
+    }
+
+    $sections_precursor = $temp;
 
 // overwrite the old json with the new one
 
@@ -740,6 +843,18 @@ if ($helper_type == "delete_slide") {
         exit(1);
     }
 
+    // Pack the precursor array (see notes on delete_section.
+
+    $temp = array();
+    $j = 0;
+
+    foreach ($slides_precursor as $key => $value) {
+        $temp[$j] = $slides_precursor[$key];
+        $j++;
+    }
+
+    $slides_precursor = $temp;
+
 // rewrite the updated slides array to slides_confguration.txt
 
     if (rewrite_slides_configuration_file()) {
@@ -778,7 +893,10 @@ if ($helper_type == "build_entries_update_table") {
 
     build_sections_array_from_files();
 
-// get the index of the entry for $section_id
+// get the index of the entry for $section_id. As with build_picklist, default to first entry
+// if supplied section_id cannot be located
+    
+    $section_index = 0;
 
     for ($i = 0; $i < count($sections); $i++) {
 
@@ -787,7 +905,8 @@ if ($helper_type == "build_entries_update_table") {
             break;
         }
     }
-
+    
+    $section_id = $sections[$section_index]['section_id'];
     $section_type = $sections[$section_index]['section_type'];
     $section_header = $sections[$section_index]['section_header'];
 
@@ -802,7 +921,7 @@ if ($helper_type == "build_entries_update_table") {
 // include a hidden span in the heading to return section_type to manager.html
 
     $return = "
-        <h2 style='text-align: center;'>$section_header update screen</h2>
+        <h2 style='text-align: center;'>Update screen for \"$section_id\" Entries</h2>
             <span id='currentsectiontype' style='display: none;'>$section_type</span>
             <p id = 'messagearea' style = 'text-align: center; padding-top: .5vh; padding-bottom: .5vh; margin-top: 0; margin-bottom: 0;'></p>";
 
