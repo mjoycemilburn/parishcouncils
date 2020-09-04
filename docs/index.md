@@ -1,4 +1,9 @@
  
+ 
+ <p>The image below shows the online booking screen displayed by booker.php. The customer enters an email address and is then is able to select an available appointment time and, if required, a preferred stylist. The screen initially shows days with free appointments for a three-month period. Selecting a day reveals a detailed screen displaying the free appointment slots on that day. Selecting a slot initiates a payment process. Successful conclusion results in the despatch of a confirmation receipt to the customer's email address.</p>
+<div style="width: 60%; margin-left: auto; margin-right: auto; text-align: center;">
+<img src="img/screen1.png"> 
+</div>
 Configuration and maintenance of a parishcouncil website is carried out using the manager.html file. This is accessed by typing in its url - eg newbigginparishcouncil.com/manager.html. You might find it useful to create a bookmark for this url.
 
 Once the system has logged you in (and please be aware that unattended session will timeout, so be prepared to signin again if requested later) you are presented with a screen such as the one shown below:
