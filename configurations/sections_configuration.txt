@@ -1,4 +1,9 @@
 [
+{"section_id":"about",
+"section_header":"About",
+"section_type":"standard_title",
+"section_prefix": "
+},
 {"section_id":"minutes",
 "section_header":"Minutes",
 "section_type":"date_title",
