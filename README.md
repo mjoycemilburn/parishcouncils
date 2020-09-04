@@ -1,6 +1,6 @@
 The  UK Government's Local Audit and Accountability Act 2014 requires Parish Councils (PCs) to publish their operations on a website. Many councils rose enthusiastically to the challenge and a rich assembly of websites quickly appeared.
 
-Sadly, however, enthusiasm has generally waned considerably since. 
+Sadly, however, enthusiasm may have waned since. 
 
 For one thing, while developing a website is fun, maintaining it subsequently is a chore. In the case of Parish Council sites, new information arises in a continuous stream and, once the original site developers have moved on to fresh, more exciting projects, the job of maintenance falls to individuals with less interest in technical matters and fewer skills.
 
