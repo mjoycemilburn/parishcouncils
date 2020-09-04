@@ -1,38 +1,4 @@
-Skip to content
-Search or jump to…
-
-Pull requests
-Issues
-Marketplace
-Explore
  
-@mjoycemilburn 
-Learn Git and GitHub without any code!
-Using the Hello World guide, you’ll start a branch, write comments, and open a pull request.
-
-
-mjoycemilburn
-/
-parishcouncil
-1
-00
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-Settings
-parishcouncil/OPERATION_MANUAL
-@mjoycemilburn
-mjoycemilburn Update OPERATION_MANUAL
-Latest commit cd09443 2 days ago
- History
- 1 contributor
-36 lines (18 sloc)  5.64 KB
-  
 Configuration and maintenance of a parishcouncil website is carried out using the manager.html file. This is accessed by typing in its url - eg newbigginparishcouncil.com/manager.html. You might find it useful to create a bookmark for this url.
 
 Once the system has logged you in (and please be aware that unattended session will timeout, so be prepared to signin again if requested later) you are presented with a screen such as the one shown below:
