@@ -34,12 +34,13 @@ Clicking the "Configure Carousel" button reveals the following screen:
 ><p>This screen allows you to change the overall title for the site and to add, delete and update the slides for the carousel. Carousle slide files can be of any graphic format but for artistic and operational effect are probably best standardised to a 16:9 width:height format. Keeping the graphics resolution to reasonable values will also assist site performance - a maximum off 1200 pixels width is probably more than adequate. "Drag and drop" can be used to alter the order of appearance of the slides - just remember to click the "Reorder" button after you've finished dragging and dropping.
 </p>
 <div>
-<h2 style = "text-align: center;">Sectionsl Maintenance</h2>
+<h2>Sections Maintenance</h2>
 </div>
 Clicking the "Configure Sections" button reveals a screen as below. 
 <div  style="width:80%; margin-left: auto; margin-right: auto; text-align: center;">
 <img src="screens/screen4.png"> 
 </div>
+<p>
 The Sections configuration screen allows you to create new sections and to update and delete existing ones. Again there is a "reorder" button to allow you to change the order in which sections will be displayed by the website. 
 </p><p>
 The Insert button requires you to declare a short identification tag for the section. This is used internally for file-naming purposes. You also need to declare a display title for the section's heading on the website. The remaining fields - section prefix and section type - are used to define the way individual entries for the section will be tabulated. Experience show that for a Parish Council application, there are typically two types of entry - entries which reference a date (eg Minutes) and entries that are just characterised by a simple title. The website's reference to an entry for a "date type" section might typically read "Minutes for 2020-07-03". In this case the Section would be defined as "Date Type" and the Section prefix would be set to "Minutes for : ". An Entry for a section defined as "Sundries" might simply read "Area map for Newbiggin Village", in which case the sundries section would be declared as "Standard type" and given a blank Prefix.
