@@ -31,7 +31,7 @@ Clicking the "Configure Carousel" button reveals the following screen:
 <div  style="width:80%; margin-left: auto; margin-right: auto; text-align: center;">
 <img src="screens/screen3.png"> 
 </div>
-><p>This screen allows you to change the overall title for the site and to add, delete and update the slides for the carousel. Carousle slide files can be of any graphic format but for artistic and operational effect are probably best standardised to a 16:9 width:height format. Keeping the graphics resolution to reasonable values will also assist site performance - a maximum off 1200 pixels width is probably more than adequate. "Drag and drop" can be used to alter the order of appearance of the slides - just remember to click the "Reorder" button after you've finished dragging and dropping.
+<p>This screen allows you to change the overall title for the site and to add, delete and update the slides for the carousel. Carousle slide files can be of any graphic format but for artistic and operational effect are probably best standardised to a 16:9 width:height format. Keeping the graphics resolution to reasonable values will also assist site performance - a maximum off 1200 pixels width is probably more than adequate. "Drag and drop" can be used to alter the order of appearance of the slides - just remember to click the "Reorder" button after you've finished dragging and dropping.
 </p>
 <div>
 <h2>Sections Maintenance</h2>
