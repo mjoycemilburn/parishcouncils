@@ -4,7 +4,9 @@
 <div  style="width: 60%; margin-left: auto; margin-right: auto; text-align: center;">
 <img src="screens/screen1.png"> 
 </div>
+<div>
 <h2 style = "text-align: center;">Website Configuration</h2>
+  </div>
 <p>Configuration and maintenance of a parishcouncil website is carried out via the sytem's manager.html file. This is accessed by typing its url -  newbigginparishcouncil.com/manager.html in this case - into the browser search fieled. You might find it useful to create a bookmark here.
 </p>
 Once the system has logged you in it will display a screen similar to the one shown below:
