@@ -25,7 +25,7 @@ Website entries define the individual documents referenced by a section - a typi
 Additionally, since it's often useful to get the website's view of the state of play while you are in the process of building or editing the configuration, manager.html provides a facility to display the site in a popup window to allow you to perform a quick check. 
 </p>
 <div>
-<h2 style = "text-align: center;">Carousel Maintenance</h2>
+<h2>Carousel Maintenance</h2>
 </div>
 Clicking the "Configure Carousel" button reveals the following screen:
 <div  style="width:80%; margin-left: auto; margin-right: auto; text-align: center;">
