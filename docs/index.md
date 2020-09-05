@@ -36,9 +36,11 @@ Clicking the "Configure Carousel" button reveals the following screen:
 <div>
 <h2>Sections Maintenance</h2>
 </div>
+<p>
 Clicking the "Configure Sections" button reveals a screen as below. 
+</p>
 <div  style="width:80%; margin-left: auto; margin-right: auto; text-align: center;">
-<img src="screens/screen4.png"> 
+<img src="screens/screen3.png"> 
 </div>
 <p>
 The Sections configuration screen allows you to create new sections and to update and delete existing ones. Again there is a "reorder" button to allow you to change the order in which sections will be displayed by the website. 
