@@ -6,35 +6,46 @@
 </div>
 <div>
 <h2 style = "text-align: center;">Website Configuration</h2>
-  </div>
+</div>
 <p>Configuration and maintenance of a parishcouncil website is carried out via the sytem's manager.html file. This is accessed by typing its url -  newbigginparishcouncil.com/manager.html in this case - into the browser search fieled. You might find it useful to create a bookmark here.
 </p>
 Once the system has logged you in it will display a screen similar to the one shown below:
 <div  style="width: 80%; margin-left: auto; margin-right: auto; text-align: center;">
 <img src="screens/screen2.png"> 
 </div>
+<p>
 Configuration facilities are provided for each of the three main elements of the system  - Carousel slides, website Sections and section Entries. 
-
-Carousel slides is a collection of graphic files that can use to give a flavour of your Parish community. Each slide can be displayed with a brief caption. The initial github system installation includes a pair of typical graphics so the slide carousel will work from the outset
-
-Website sections are used to define the filing structure of your website. However, you can have as many sections as you like and, once you have defined them, you can arrange for them to be displayed in any sequence that you choose. The system as installed, includes a Minutes and a Policies section
-
-Website entries define the individual documents referenced by a section - a typical entry would be apdf file containing the minutes for a meeting. Sample Minutes and Policies entries are included in the installation file set.
-
-Additionally, since it's often useful to get the website's view of the state of play while you are in the process of building or editing the configuration, manager.html provides a facility to display the site in a popup window so you can do a quick check. 
-
-CAROUSEL Maintenance
-
-Clicking the "Configure Carousel" button reveals a display similar to the one below. This allows yu to change the overall title for the site and to add, delete and update the slides for the carousel. Carousle slide files can be of any graphic format but for artistic and operational effect are probably best standardised to a 16:9 width:height format and a maximum size of .5Mb. "Drag and drop" can be used to alter the order of appearance of the slides - just remember to click the "Reorder" button after you've finished dragging and dropping.
-
-SECTIONS maintenance
-
-Clicking the "Configure Sections" button reveals a screen such as the one below. It is designed to allow you to create new sections and to update and delete existing ones. Again there is a "reorder" button to allow you to change the order in which sections will be displayed by the website. 
-
-The Insert button requires you firstly to declare a short identification tag for the section. This is used internally for file-naming purposes. You also need to declare a display title for the section as it will appear in the website. The remaining fields - section prefix and section type - are used to define the way individual entries for the section will be tabulated in the website. Experience show that for a Parish Council application, there are two types of entry - entries which are essentially related to a Date (eg Minutes) and entries that are just characterised by a simple title. The websites reference to an entry for a Date type section might typically read "Minutes for 2020-07-03". In this case the Section has been defined as "date Type" and the Section prefix has been set to "Minutes for : ". An Entry for a secetion defined as "sundries" might simply read "are map for Newbiggin Village", in which case the sundries section must have been declared as "standard type" with a blank Prefix.
-
-Be aware if that while you can create and rename sections without constraint, the system draws a line at you deleting /every/ section. In this event you will find the system will create a dummy "default" section. If you delete this, it will just create another one, so best rename it as your first section if you're actually just trying to start from scratch with a new set of sections.
-
+</p><p>
+The Carousel enables you to display a collection of graphic files to give a flavour of your Parish community. The initial github system installation includes a pair of typical graphics so the slide carousel will work from the outset.
+</p><p>
+Website sections are used to define the filing structure of your website. You can have as many sections as you like and arrange them in whatever sequence you want. The system as installed, includes a Minutes and a Policies section
+</p><p>
+Website entries define the individual documents referenced by a section - a typical entry would be the pdf file for the minutes for a meeting. Sample Minutes and Policies entries are included in the installation file set.
+</p><p>
+Additionally, since it's often useful to get the website's view of the state of play while you are in the process of building or editing the configuration, manager.html provides a facility to display the site in a popup window to allow you to perform a quick check. 
+</p>
+<div>
+<h2 style = "text-align: center;">Carousel Maintenance</h2>
+</div>
+Clicking the "Configure Carousel" button reveals the following screen:
+<div  style="width:80%; margin-left: auto; margin-right: auto; text-align: center;">
+<img src="screens/screen3.png"> 
+</div>
+><p>This screen allows you to change the overall title for the site and to add, delete and update the slides for the carousel. Carousle slide files can be of any graphic format but for artistic and operational effect are probably best standardised to a 16:9 width:height format. Keeping the graphics resolution to reasonable values will also assist site performance - a maximum off 1200 pixels width is probably more than adequate. "Drag and drop" can be used to alter the order of appearance of the slides - just remember to click the "Reorder" button after you've finished dragging and dropping.
+</p>
+<div>
+<h2 style = "text-align: center;">Sectionsl Maintenance</h2>
+</div>
+Clicking the "Configure Sections" button reveals a screen as below. 
+<div  style="width:80%; margin-left: auto; margin-right: auto; text-align: center;">
+<img src="screens/screen4.png"> 
+</div>
+The Sections configuration screen allows you to create new sections and to update and delete existing ones. Again there is a "reorder" button to allow you to change the order in which sections will be displayed by the website. 
+</p><p>
+The Insert button requires you to declare a short identification tag for the section. This is used internally for file-naming purposes. You also need to declare a display title for the section's heading on the website. The remaining fields - section prefix and section type - are used to define the way individual entries for the section will be tabulated. Experience show that for a Parish Council application, there are typically two types of entry - entries which reference a date (eg Minutes) and entries that are just characterised by a simple title. The website's reference to an entry for a "date type" section might typically read "Minutes for 2020-07-03". In this case the Section would be defined as "Date Type" and the Section prefix would be set to "Minutes for : ". An Entry for a section defined as "Sundries" might simply read "Area map for Newbiggin Village", in which case the sundries section would be declared as "Standard type" and given a blank Prefix.
+</p><p>
+Be aware if that while you can create and rename sections without constraint, the system draws a line at you deleting /every/ section. In this event you will find the system  creates a dummy "default" section. If you delete this, it will just create another one, so best rename it as your first section if you're actually just trying to start from scratch with a new set of sections.
+</p>
 ENTRIES maintenance
 
 Once the system is up and running, routine maintenance will just consist of the addition of new Entries and so it is the Entries maintenance screen which provides the initial view of the system. Manager.html remembers the last section you were working on and automatically reutrns to this view on re-entry. If you want to switch to entries-maintenance for a different section, simply select this from the picklist.
