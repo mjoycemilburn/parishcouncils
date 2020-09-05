@@ -40,7 +40,7 @@ Clicking the "Configure Carousel" button reveals the following screen:
 Clicking the "Configure Sections" button reveals a screen as below. 
 </p>
 <div  style="width:80%; margin-left: auto; margin-right: auto; text-align: center;">
-<img src="screens/screen3.png"> 
+<img src="screens/screen4.png"> 
 </div>
 <p>
 The Sections configuration screen allows you to create new sections and to update and delete existing ones. Again there is a "reorder" button to allow you to change the order in which sections will be displayed by the website. 
@@ -49,16 +49,26 @@ The Insert button requires you to declare a short identification tag for the sec
 </p><p>
 Be aware if that while you can create and rename sections without constraint, the system draws a line at you deleting /every/ section. In this event you will find the system  creates a dummy "default" section. If you delete this, it will just create another one, so best rename it as your first section if you're actually just trying to start from scratch with a new set of sections.
 </p>
-ENTRIES maintenance
-
+<div>
+<h2>Entries Maintenance</h2>
+</div>
+<p>
+Clicking the "Manage Entries" button reveals a screen as below. 
+</p>
+<div  style="width:80%; margin-left: auto; margin-right: auto; text-align: center;">
+<img src="screens/screen5.png"> 
+</div>
+<p>
 Once the system is up and running, routine maintenance will just consist of the addition of new Entries and so it is the Entries maintenance screen which provides the initial view of the system. Manager.html remembers the last section you were working on and automatically reutrns to this view on re-entry. If you want to switch to entries-maintenance for a different section, simply select this from the picklist.
-
+</p><p>
 For Standard Entry inserts you just need to specify a Title for the entry and select a file for upload. Not that only pdf type files are supported.
-
+</p><p>
 For Date Entry inserts, clicking in the title field will reveal a date-picker to allow you to quickly specify the date for the entry in a standard format. For Date Entry inserts you ccan also specify an optionl suffix for each individual entry, so that a Minutes Entry for an AGM might read "Minutes for : 2020-05-06 (AGM)", where the prefix for the section has been specified as "Minutes for : " and the suffix for this particular engtry has been declared as "(AGM)".
 
 GENERAL
 
 DoO be aware that the technical design for the parishcouncil system is extremely simple - deliberately so in order to minimise setup and maintenance complications. In particular there is no database to manage simultaneus operation by numerous updaters. There is no problem with simultaneous retrieval, however, an it is assumed that for a Parish Council system, where, the only updates are likely to come from the Clerk, the design is reasonable. In the unlikely event that the system should malfunction, however, it should be reasonably easy to see where things have gone wrong by insecting the slides and sections configurations text files and examinining the file contents of the Entries folder.
+
+Noteo =n timeout
 
 
