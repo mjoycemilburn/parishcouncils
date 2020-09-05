@@ -10,7 +10,7 @@
 <p>Configuration and maintenance of a parishcouncil website is carried out via the sytem's manager.html file. This is accessed by typing its url -  newbigginparishcouncil.com/manager.html in this case - into the browser search fieled. You might find it useful to create a bookmark here.
 </p>
 Once the system has logged you in it will display a screen similar to the one shown below:
-<div  style="width: 60%; margin-left: auto; margin-right: auto; text-align: center;">
+<div  style="width: 80%; margin-left: auto; margin-right: auto; text-align: center;">
 <img src="screens/screen2.png"> 
 </div>
 Configuration facilities are provided for each of the three main elements of the system  - Carousel slides, website Sections and section Entries. 
