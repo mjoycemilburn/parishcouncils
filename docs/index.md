@@ -65,11 +65,14 @@ For Standard Entry inserts you just need to specify a Title for the entry and se
 </p><p>
 For Date Entry inserts, clicking in the title field will reveal a date-picker to allow you to quickly specify the date for the entry in a standard format. For Date Entry inserts you ccan also specify an optionl suffix for each individual entry, so that a Minutes Entry for an AGM might read "Minutes for : 2020-05-06 (AGM)", where the prefix for the section has been specified as "Minutes for : " and the suffix for this particular engtry has been declared as "(AGM)".
 </p>
+<div>
+<h2>General</h2>
+</div>
+<p>
+Please be aware that manager.html does not use the sort of database technology required to support high-volume real-time operation by simultaneous users since this would have made the installation task a greta deal more difficult. In any event, this hardly likley to be a problem for Parish Council operations where the only updates are likely to come from the Clerk. In the unlikely event that the system should ever malfunction, inspection of the slides and sections configurations text files and the contents of the Entries folder (used to store the systems copies of uploaded files) should reveal the problem. Simple editing and renaming should fix things - refer back to the installation software for examples of what the file formats /should/ look like.
+</p><p>
+Be aware that servers usually impose a timeout period on login sessions (typically 20 minutes). If you leave a session unattended for longer than this period  it will automatically ask you to login agan before you can continue.
+</p>
 
-GENERAL
-
-Do be aware that the technical design for the parishcouncil system is extremely simple - deliberately so in order to minimise setup and maintenance complications. In particular there is no database to manage simultaneus operation by numerous updaters. There is no problem with simultaneous retrieval, however, an it is assumed that for a Parish Council system, where, the only updates are likely to come from the Clerk, the design is reasonable. In the unlikely event that the system should malfunction, however, it should be reasonably easy to see where things have gone wrong by insecting the slides and sections configurations text files and examinining the file contents of the Entries folder.
-
-Noteo =n timeout
 
 
