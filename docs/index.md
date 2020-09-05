@@ -73,6 +73,3 @@ Please be aware that manager.html does not use the sort of database technology r
 </p><p>
 Be aware that servers usually impose a timeout period on login sessions (typically 20 minutes). If you leave a session unattended for longer than this period  it will automatically ask you to login agan before you can continue.
 </p>
-
-
-
