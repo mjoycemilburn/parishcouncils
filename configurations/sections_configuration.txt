@@ -1,17 +1,20 @@
 [
-{"section_id":"about",
+{
+"section_id":"about",
 "section_header":"About",
-"section_type":"standard_title",
-"section_prefix": "
+"section_prefix":"",
+"section_type":"standard_title"
 },
-{"section_id":"minutes",
+{
+"section_id":"minutes",
 "section_header":"Minutes",
-"section_type":"date_title",
-"section_prefix":"Minutes for : "
+"section_prefix":"Minutes for : ",
+"section_type":"date_title"
 },
-{"section_id":"policies",
+{
+"section_id":"policies",
 "section_header":"Policies",
-"section_type":"standard_title",
-"section_prefix":"Policy for : "
+"section_prefix":"",
+"section_type":"standard_title"
 }
 ]
