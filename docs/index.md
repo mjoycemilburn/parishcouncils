@@ -19,9 +19,9 @@ Once the system has logged you in you should see a screen as below:</p><br>
 <img src="screens/screen2.png"> 
 </div>
 <p>
-Configuration facilities are provided for each of the three main elements of the system  - Carousel slides, website Sections and section Entries. 
+Configuration facilities are provided for each of the three main elements of the system: Carousel slides, website Sections and section Entries. 
 </p><p>
-The Carousel enables you to display a collection of graphic files that give a flavour of your Parish community. The initial github system installation includes a pair of typical graphics so that the slide carousel will work from the outset.
+The Carousel enables you to display a collection of graphic files that give a flavour of your Parish community. The initial github system installation includes a pair of typical graphics, so the slide carousel will work from the outset.
 </p><p>
 Website Sections are used to define the filing structure of your website. You can have as many Sections as you like and arrange them in whatever sequence you want. The system as installed, includes an "About", a "Minutes" and a "Policies" section
 </p><p>
@@ -52,7 +52,7 @@ The Sections configuration screen allows you to create new sections and to updat
 </p><p>
 The Insert button requires you to declare a short identification tag for the section. This is used internally for file-naming purposes. You also need to declare a display title for the section's heading on the website. The remaining fields - section prefix and section type - are used to define the way individual entries for the section will be tabulated. Experience show that for a Parish Council application, there are typically two types of entry - entries which reference a date (eg Minutes) and entries that are just characterised by a simple title. The website's reference to an entry for a "date type" section might typically read "Minutes for 2020-07-03". In this case the Section would be defined as "Date Type" and the Section prefix would be set to "Minutes for : ". An Entry for a section defined as "Sundries" might simply read "Area map for Newbiggin Village", in which case the sundries section would be declared as "Standard type" and given a blank Prefix.
 </p><p>
-Be aware if that while you can create and rename sections without constraint, the system draws a line at you deleting /every/ section. In this event you will find the system  creates a dummy "default" section. If you delete this, it will just create another one, so best rename it as your first section if you're actually just trying to start from scratch with a completely new set of sections.
+Be aware if that while you can create and rename sections without constraint, the system draws a line at you deleting <strong>every</strong> section. In this event you will find that the system  creates a dummy "default" section. If you delete this, it will just create another one, so best rename it as your first section if you're actually just trying to start from scratch with a completely new set of sections.
 </p>
 <div>
 <h2>Entries Maintenance</h2>
@@ -64,7 +64,7 @@ Clicking the "Manage Entries" button reveals the screen below.
 <img src="screens/screen5.png"> 
 </div>
 <p>
-Once the system is up and running, routine maintenance will just consist of the addition of new Entries and so it is the Entries maintenance screen which provides the initial view of the system. Manager.html remembers the last section you were working on and automatically reutrns to this view on re-entry. If you want to switch to entries-maintenance for a different section, simply select this from the picklist.
+Once the system is up and running, routine maintenance will just consist of the addition of new Entries and so it is the Entries maintenance screen that provides the initial view of the system. Manager.html remembers the last section you were working on and automatically returns to this view on re-entry. If you want to switch to maintenance for a different section, simply select this from the picklist.
 </p><p>
 For Standard Entry inserts you just need to specify a Title for the entry and select a file for upload. Note that only pdf type files are supported here since they are the most flexible and effective way of communicating information online. Modern browsers all provide built-in support for pdf file type and pdf-displays are zoomable.
 </p><p>
