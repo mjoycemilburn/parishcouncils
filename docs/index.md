@@ -13,6 +13,7 @@ Once the dafault system is installed, the user is free to tailor the website con
 <p>
 The sorting order of Entries is fixed (descending alphabetic) but sections thmselves can be configured in any desired sequence. Only the first four entries in a given Section are displayed but a button permits the remainder to be revealed, as required .
 </p>
+<p>
 Once the system has logged you in you should see a screen as below:</p><br>
 <div  style="width: 80%; margin-left: auto; margin-right: auto; text-align: center;">
 <img src="screens/screen2.png"> 
