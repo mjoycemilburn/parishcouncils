@@ -27,7 +27,7 @@ Website Sections are used to define the filing structure of your website. You ca
 </p><p>
 Website Entries define the individual documents referenced by a section - a typical entry would be the pdf file for the minutes of a meeting. Sample entries for each of the default sections are included in the installation file-set.
 </p><p>
-Additionally, since it's often useful to get the website's view of the state of play while you are in the process of building or editing the configuration, we provide a facility to display the site in a popup window to allow you to perform a quick check. 
+Additionally, since it's often useful to get the website's view of the state of play while you are in the process of building or editing the configuration, a facility is provided to display the site in a popup window to allow you to perform a quick check. 
 </p>
 <div>
 <h2>Carousel Maintenance</h2>
@@ -36,7 +36,7 @@ Clicking the "Configure Carousel" button reveals the following screen:
 <div  style="width:80%; margin-left: auto; margin-right: auto; text-align: center;">
 <img src="screens/screen3.png"> 
 </div>
-<p>This screen allows you to change the overall title for the site and to add, delete and update the slides for the carousel. Carousel slide files can be of any graphic format but for artistic and operational effect are probably best standardised to a 16:9 width:height format. Keeping the graphics resolution to reasonable values will also assist site performance - a maximum off 1200 pixels width is probably more than adequate. "Drag and drop" can be used to alter the order of appearance of the slides - just remember to click the "Reorder" button after you've finished dragging and dropping.
+<p>This screen allows you to change the overall title for the site and to add, delete and update the slides for the carousel. Carousel slide files can be of any graphic format but for artistic and operational effect are probably best standardised on a 16:9 width:height format. Keeping the graphics resolution to reasonable values will also assist site performance - a maximum off 1200 pixels width is probably more than adequate. "Drag and drop" can be used to alter the order of appearance of the slides - just remember to click the "Reorder" button after you've finished dragging and dropping.
 </p>
 <div>
 <h2>Sections Maintenance</h2>
@@ -50,9 +50,9 @@ Clicking the "Configure Sections" button reveals a screen as below.
 <p>
 The Sections configuration screen allows you to create new sections and to update and delete existing ones. Again there is a "reorder" button to allow you to change the order in which sections will be displayed by the website. 
 </p><p>
-The Insert button requires you to declare a short identification tag for the section. This is used internally for file-naming purposes. You also need to declare a display title for the section's heading on the website. The remaining fields - section prefix and section type - are used to define the way individual entries for the section will be tabulated. Experience show that for a Parish Council application, there are typically two types of entry - entries which reference a date (eg Minutes) and entries that are just characterised by a simple title. The website's reference to an entry for a "date type" section might typically read "Minutes for 2020-07-03". In this case the Section would be defined as "Date Type" and the Section prefix would be set to "Minutes for : ". An Entry for a section defined as "Sundries" might simply read "Area map for Newbiggin Village", in which case the sundries section would be declared as "Standard type" and given a blank Prefix.
+The Insert button requires you to declare a short identification tag for the section. This is used internally for file-naming purposes. You also need to declare a display title for the section's heading on the website. The remaining fields - section prefix and section type - are used to define the way individual entries for the section will be tabulated. Experience show that for a Parish Council application, there are typically two types of entry - entries which reference a date (eg Minutes) and entries that are just characterised by a simple title. The website's reference to an entry for a "date type" section might typically read "Minutes for 2020-07-03". In this case the Section would have been defined as "Date Type" and the Section prefix would have been set to "Minutes for : ". An Entry for a section defined as "Sundries" might simply read "Area map for Newbiggin Village", in which case the sundries section would have bene declared as "Standard type" and given a blank Prefix.
 </p><p>
-Be aware if that while you can create and rename sections without constraint, the system draws a line at you deleting <strong>every</strong> section. In this event you will find that the system  creates a dummy "default" section. If you delete this, it will just create another one, so best rename it as your first section if you're actually just trying to start from scratch with a completely new set of sections.
+Be aware if that while you can create and rename sections without constraint, the system draws a line at letting you delete <strong>every</strong> section. In this event you will find that the system  creates a dummy "default" section. If you delete this, it will just create another one, so if you're trying to replace the default set of sections with a completely new set, it might be better to try "renaming" rather than "deleting" to clear the unwanted sections.
 </p>
 <div>
 <h2>Entries Maintenance</h2>
