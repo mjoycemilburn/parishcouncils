@@ -114,7 +114,7 @@ if ($helper_type == "build_section_picklist") {
     for ($i = 0; $i < count($sections_precursor); $i++) {
 
         $section_id = $sections_precursor[$i]['section_id'];
-        
+
         if ($i == $current_section_id_index) {
             $return .= "<option selected value = '$section_id'>$section_id</option>";
         } else {
@@ -368,8 +368,6 @@ if ($helper_type == "update_section") {
 
                     $temp = ltrim($current_filename, $section_id_old);
                     $new_filename = $section_id_new . $temp;
-                    pr($current_filename);
-                    pr($new_filename);
                     if (!rename("../entries/$current_filename", "../entries/$new_filename")) {
                         echo "Oops! rename %failed% in update_section for file $current_filename.";
                         exit(1);
@@ -895,7 +893,7 @@ if ($helper_type == "build_entries_update_table") {
 
 // get the index of the entry for $section_id. As with build_picklist, default to first entry
 // if supplied section_id cannot be located
-    
+
     $section_index = 0;
 
     for ($i = 0; $i < count($sections); $i++) {
@@ -905,7 +903,7 @@ if ($helper_type == "build_entries_update_table") {
             break;
         }
     }
-    
+
     $section_id = $sections[$section_index]['section_id'];
     $section_type = $sections[$section_index]['section_type'];
     $section_header = $sections[$section_index]['section_header'];
@@ -1063,7 +1061,7 @@ if ($helper_type == "insert_entry") {
         $filename = $section_id . "_" . $entry_date . "_";
         if ($entry_suffix != '') {
             $filename .= $entry_suffix;
-        } 
+        }
     } else {
         $entry_title = $_POST['entry_title'];
         $filename = $section_id . "_" . $entry_title;
@@ -1094,9 +1092,9 @@ if ($helper_type == "insert_entry") {
         if (($_SERVER['REMOTE_ADDR'] == '127.0.0.1' or $_SERVER['REMOTE_ADDR'] == '::1')) {
             $upload_target = "D:\\Abyss Web Server\\htdocs\\parishcouncil\\entries\\$filename";
         } else {
-            $upload_target = "/home/qfgavcxt/public_html/parishcouncil/entries/$filename";
+            //          $upload_target = "/home/qfgavcxt/public_html/parishcouncil/entries/$filename";
+            $upload_target = "../entries/$filename";
         }
-
         if (move_uploaded_file($_FILES['entryfilename'] ['tmp_name'], $upload_target)) {
             echo "insert succeeded";
         } else {
@@ -1159,7 +1157,7 @@ if ($helper_type == "update_entry") {
     if (($_SERVER['REMOTE_ADDR'] == '127.0.0.1' or $_SERVER['REMOTE_ADDR'] == '::1')) {
         $upload_target = "D:\\Abyss Web Server\\htdocs\\parishcouncil\\entries\\$new_filename";
     } else {
-        $upload_target = "/home/qfgavcxt/public_html/parishcouncil/entries/$new_filename";
+        $upload_target = "../entries/$new_filename";
     }
 
     if ($source_status == "new source file provided") {
