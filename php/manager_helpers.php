@@ -1092,7 +1092,6 @@ if ($helper_type == "insert_entry") {
         if (($_SERVER['REMOTE_ADDR'] == '127.0.0.1' or $_SERVER['REMOTE_ADDR'] == '::1')) {
             $upload_target = "D:\\Abyss Web Server\\htdocs\\parishcouncil\\entries\\$filename";
         } else {
-            //          $upload_target = "/home/qfgavcxt/public_html/parishcouncil/entries/$filename";
             $upload_target = "../entries/$filename";
         }
         if (move_uploaded_file($_FILES['entryfilename'] ['tmp_name'], $upload_target)) {
