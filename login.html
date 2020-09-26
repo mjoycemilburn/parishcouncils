@@ -35,10 +35,12 @@
 
                     <h2 style="text-align: center;">Parish Council Management login</h2>
                     
-                    <!--By default, forms are submitted by pressing the Enter/Return key from within an 
-                        input type text field, when it is the only text field in the form -->
+                    <!-- see below for advice on login with carriage return - handy after autofill
+                    http://jennifermadden.com/javascript/stringEnterKeyDetector.html
                     
-                    <form style="border: solid; width: 100%; padding: 3vh 1vw 4vh 1vw; margin: 4vh auto 5vh auto;" onsubmit="loginWithUserCredentials();">        
+                    Note that a form with a single input is automatically submited by cr-->
+                    
+                    <form style="border: solid; width: 100%; padding: 3vh 1vw 4vh 1vw; margin: 4vh auto 5vh auto;"  onsubmit="loginWithUserCredentials();">        
                         <p>
                             <label id = "passwordlabel" class = "formlabel">Password:</label>&nbsp;&nbsp;
                             <input id = "password" autofocus type="password" title="Your personal password" maxlength="12" size="12" onkeyup = "clearAllErrors();">
