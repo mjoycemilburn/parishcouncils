@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en-GB">
     <head>
-        <meta charset="utf-8"> 
-        <meta name="description" 
+        <meta charset="utf-8">
+        <meta name="description"
               content="Home page for Milburn Parish Counci : About, Minutes, Agendas, Policies, Financial Statements, Sundry">
         <title>Home - Milburn Parish Council</title>
-        <meta name="keywords" 
+        <meta name="keywords"
               content="About, minutes, agendas, policies, financial statements, sundry">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">     
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!-- Bootstrap includes from https://www.w3schools.com/bootstrap4/tryit.asp?filename=trybs_carousel2 -->
 
@@ -20,7 +20,6 @@
         <link rel="stylesheet" type="text/css" href="st/theme.css">
         <!-- code for datepicker -->
         <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
 
         <style>
             div.ui-datepicker {
@@ -36,7 +35,7 @@
                 background: #83C948
             }
             /* today's background color */
-            .ui-datepicker-today 
+            .ui-datepicker-today
             {
                 background: #83C948
             }
@@ -53,7 +52,7 @@
                 display: inline-block;
                 text-decoration: none !important;
                 margin: 1em auto 1em auto;
-            }        
+            }
 
             .view {
                 background-color: LAVENDER;
@@ -690,7 +689,7 @@
             }
 
             function displaySectionsUpdateView(message) {
-                
+
                 // the message parameter is supplied by the calling routine to
                 // to signal successful outcome of whatever operation preceded
                 // the function call
@@ -785,13 +784,13 @@
 
             var saveTypeChanged = false;
             function updateSection(sectionIndex) {
-                
+
                 // the code below is very unsatisfactory but attempts using confirm or popup messages
-                // to display the warning message when the radio button was clicked failed unpredictably - 
-                // It seemed (in Chrome at least) that the "toggling" action of the radio buttons was 
+                // to display the warning message when the radio button was clicked failed unpredictably -
+                // It seemed (in Chrome at least) that the "toggling" action of the radio buttons was
                 // "eaten" by the function call - but not every time! Mysteriously, only the radio buttons
                 // on the first section displayed seemed to be affected
-                
+
                 message = "Changing the type of this Section will have an effect on the titles ";
                 message += "of any Entries in the section. Changing the type for a standard_title ";
                 message += "section will cause titles for entries for the section ";
@@ -997,6 +996,3 @@
 
     </body>
 </html>
-
-
-
