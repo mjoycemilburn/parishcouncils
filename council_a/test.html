@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Home page for Parish Council System : About, Minutes, Agendas, Policies, Financial Statements, Sundry">
+    <title>Home - Parish Councils</title>
+    <meta name="keywords" content="About, minutes, agendas, policies, financial statements, sundry">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap includes from https://www.w3schools.com/bootstrap4/tryit.asp?filename=trybs_carousel2 -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- sortableJS styles - see https://www.solodev.com/blog/web-design/how-to-create-sortable-lists-with-sortablejs.stml-->
+    <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
+    <!-- code for datepicker -->
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <style>
+        div.ui-datepicker {
+            font-size: 12px;
+            background: gainsboro;
+            border: 1px solid #555;
+            color: blue;
+        }
+
+        /* current input value background color */
+        .ui-datepicker-current-day {
+            background: #83C948
+        }
+
+        /* today's background color */
+        .ui-datepicker-today {
+            background: #83C948
+        }
+
+        #ui-datepicker-div {
+            z-index: 9999 !important
+        }
+
+        .launchpadlink {
+            width: 5.5em;
+            padding: .5em;
+            color: blue;
+            border: 1px solid black;
+            border-radius: .5em;
+            padding: .5em;
+            display: inline-block;
+            text-decoration: none !important;
+            margin: 1em auto 1em auto;
+        }
+
+        .view {
+            background-color: LAVENDER;
+        }
+
+        .amend {
+            background-color: MEDIUMAQUAMARINE;
+        }
+
+        .configure {
+            background-color: WHEAT;
+        }
+
+        label {
+            font-weight: bold;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <label for='sectionprefix$i'>&nbsp;&nbsp;Prefix :&nbsp;</label>
+    <input type='text' maxlength='30' size='10' id='sectionprefix$i' autocomplete='off' value='$section_prefix' disabled title='Enter the prefix for entries in this section (if any)' onmousedown='clearMessageArea();'>
+
+    <label for='sectiontypedate$i'>&nbsp;&nbsp;Date type&nbsp;</label>
+    <input type=radio id='sectiontypedate$i' name='sectiontype$i' value='date_title' title='check this button to include a date in section entry titles' onclick='clearMessageArea(); saveTypeChanged = true; togglePrefixStatus("$i");'>
+    <label for='standardtypedate$i'>&nbsp;&nbsp;Standard type&nbsp;</label>
+    <input type=radio id='sectiontypestandard$i' name='sectiontype$i' value='standard_title' checked title='check this button if you do not need dates in section entry titles'
+        onclick='clearMessageArea(); saveTypeChanged = true; togglePrefixStatus("$i");'>
+
+    <script>
+        function togglePrefixStatus(sectionIndex) {
+
+            // if the prefix for sectionIndex is disabled, enabled it and vice-versa
+
+            var sectiontypedate = document.getElementById('sectiontypedate' + sectionIndex);
+            var sectionprefix = document.getElementById('sectionprefix' + sectionIndex);
+            if (sectiontypedate.checked) {
+                sectionprefix.disabled = false;
+                sectionprefix.style.color = 'green';
+                sectionprefix.style.fontWeight = 'bold';
+            } else {
+                sectionprefix.disabled = true;
+                sectionprefix.style.color = 'red';
+                sectionprefix.style.fontWeight = 'bold';
+            }
+        }
+
+        function clearMessageArea() {}
+    </script>
+</body>
+
+</html>

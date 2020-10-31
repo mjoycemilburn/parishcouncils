@@ -1,53 +1,73 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+header("Access-Control-Allow-Headers: Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, If-Modified-Since, X-File-Name, Cache-Control");
+header("Access-Control-Max-Age: 18000");
 
-require('../includes/pc_functions.php');
-
-# As directed by helper_type :    
-#   
-# 'build_carousel'                      -   get all the slide files and turn them into a bootstrap carousel                                          
-#                                                                                                                           
-# 'build_sections_view_table'           -   generate the website html to view all the entries for all the 
-#                                           sections                                                                                                                       
-#
-
-$page_title = 'pcouncil_entries_database_helpers';
-
-# set headers to NOT cache the page
+// set headers to NOT cache the page
 header("Cache-Control: no-cache, must-revalidate"); //HTTP 1.1
 header("Pragma: no-cache"); //HTTP 1.0
 header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+require('../includes/council_functions.php');
+
+// As directed by helper_type :
+//
+// 'build_carousel'                      -   get all the slide files and turn them into a bootstrap carousel
+//
+// 'build_sections_view_table'           -   generate the website html to view all the entries for all the
+//                                           sections
+//
+
+    $page_title = 'pcouncil_index_helpers';
 
 date_default_timezone_set('Europe/London');
+
+// check logged_in
+
+session_start();
+
+if (!isset($_SESSION['council_id_for_logged_in_user'])) {
+    echo "%timed_out%";
+    exit(0);
+}
+
+// connect to the parishcouncils database
+
+connect_to_database();
 
 // get helper-request
 
 $helper_type = $_POST['helper_type'];
 
-#####################  build_carousel ####################
+//////////////////////////////////////////  build_carousel //////////////////////////////////////////
 
 if ($helper_type == "build_carousel") {
-
-# Build an array representing the currently-defined slides, their order and
-# the files to which they refer
-# 
-# $slides['slide_title' => $slide_title, 'slide_file_extension' => $slide_file_extension]
-#        
-
-    build_slides_array_from_files();
-
-    $website_title = get_website_title();
+    $council_id = $_POST['council_id'];
+    $council_name = $_POST['council_name'];
 
     $return = "
                 <div id = 'home' class = 'container-fluid' style = 'margin-top: 2vh; margin-bottom: 4vh; width: 100%; text-align: center; background: Aquamarine;'>
-                    <h4 style='padding: 1.5vh;' id = 'websitetitle' >$website_title</h4>
+                    <h4 style='padding: 1.5vh;' id = 'websitetitle' >$council_name Parish Council</h4>
                 </div>";
 
-# Build the html representing 'carousel_inner'
+    $sql = "SELECT
+                slide_title,
+                slide_file_extension
+            FROM
+                slides
+            WHERE
+                council_id = '$council_id'
+            ORDER BY slide_sequence_number ASC;";
 
-    foreach ($slides as $i => $value) {
+    $result = sql_result_for_location($sql, 2);
 
-        $slide_title = $slides[$i]['slide_title'];
-        $slide_file_extension = $slides[$i]['slide_file_extension'];
+    // Build the html representing 'carousel_inner'
+
+    $i = 0;
+
+    while ($row = mysqli_fetch_array($result)) {
+        $slide_title = $row['slide_title'];
+        $slide_file_extension = $row['slide_file_extension'];
 
         $return .= "
                 <div class='carousel-item ";
@@ -64,35 +84,36 @@ if ($helper_type == "build_carousel") {
                         <p id = 'carouselimgcaption$i'>$slide_title</p>
                     </div>
                 </div>";
+        $i++;
     }
 
     echo $return;
 }
 
-#####################  build_sections_view_table ####################
+//////////////////////////////////////////  build_sections_view_table //////////////////////////////////////////
 
 if ($helper_type == "build_sections_view_table") {
+    $council_id = $_POST['council_id'];
+    $return = '';
 
-# Get a 2d array representing the currently-defined sections, their order and the 
-# entries within them:
-# 
-# $sections['section_id' => $section_id, 'section_header' => $section_header, 'section_type' => $section_type', 'section_prefix' => $section_prefix
-#        entries['entry_title' => $entry_title, 'entry_suffix' => $entry_suffix]]
-#        
-# Where $section_type indicate whether the title is of the form 'date_title' (value 'date_title')
-# or simply 'title' (value 'standard_title')
-# 
+    $sql = "SELECT
+                section_id,
+                section_header,
+                section_type,
+                section_prefix
+            FROM
+                sections
+            WHERE
+                council_id = '$council_id'
+            ORDER BY section_sequence_number ASC;";
 
-    build_sections_array_from_files();
+    $result1 = sql_result_for_location($sql, 3);
 
-    $return = "";
-
-    for ($i = 0; $i < count($sections); $i++) {
-
-        $section_id = $sections[$i]['section_id'];
-        $section_header = $sections[$i]['section_header'];
-        $section_type = $sections[$i]['section_type'];
-        $section_prefix = $sections[$i]['section_prefix'];
+    while ($row1 = mysqli_fetch_array($result1)) {
+        $section_id = $row1['section_id'];
+        $section_type = $row1['section_type'];
+        $section_prefix = $row1['section_prefix'];
+        $section_header = $row1['section_header'];
 
         $return .= "<p class='sectionheader'>$section_header</p>";
 
@@ -100,32 +121,42 @@ if ($helper_type == "build_sections_view_table") {
         $entriesa = "<div id = '" . $section_id . "a' style = 'display: block;'>";
         $entriesb = "<div id = '" . $section_id . "b' style = 'display: none;'>";
 
-        $entries = $sections[$i]['entries'];
-
         if ($section_type == "standard_title") {
             $width = '80%';
         } else {
             $width = '60%';
         }
 
-        foreach ($entries as $key => $value) {
+        $sql = "SELECT
+                    entry_date,
+                    entry_suffix,
+                    entry_title
+                FROM
+                    entries
+                WHERE
+                    section_id = '$section_id' AND
+                    council_id = '$council_id';";
 
-# Build the html representing the entreis for  section as a pair of divs - the first ('section_id'entriesa') containing
-# just the first four followed by a "more" button, the second (section_id'entriesb') containing all the entreis followed
-# by a "less button"
+        $result2 = sql_result_for_location($sql, 4);
+
+        while ($row2 = mysqli_fetch_array($result2)) {
+
+            // Build the html representing the entries for each section as a pair of divs - the first ('section_id'entriesa') containing
+            // just the first four followed by a "more" button, the second (section_id'entriesb') containing all the entreis followed
+            // by a "less button"
 
             if ($section_type == "standard_title") {
-                $entry_displaya = $section_prefix . "&nbsp;" . $entries[$key]['entry_title'];
-                $entry_link = $section_id . "_" . $entries[$key]['entry_title'] . ".pdf";
+                $entry_displaya = $row2['entry_title'];
+                $entry_link = $section_id . "_" . $row2['entry_title'] . ".pdf";
             } else {
-                $entry_displaya = $section_prefix . $entries[$key]['entry_date'];
-                $entry_displayb = $entries[$key]['entry_suffix'];
-                $entry_link = $section_id . "_" . $entries[$key]['entry_date'] . "_" . $entries[$key]['entry_suffix'] . ".pdf";
+                $entry_displaya = $section_prefix . " " . $row2['entry_date'];
+                $entry_displayb = $row2['entry_suffix'];
+                $entry_link = $section_id . "_" . $row2['entry_date'] . "_" . $row2['entry_suffix'] . ".pdf";
             }
-            
+
             // $entry_standard below is the normal aquamarine form of a section entry, $entry_special
             // is a white-smoke version to signal the presence of the "more" button below. Previously
-            // used opackty but this upset accessibility score
+            // used opacity but this upset accessibility score
 
             $entry_standard = "
                 <p role = 'button' aria-label='Display the pdf file for this entry' tabindex = '0'
@@ -177,11 +208,11 @@ if ($helper_type == "build_sections_view_table") {
             }
 
             if ($count == 4) {
-                if (count($entries) > 4) {
+                if (mysqli_num_rows($result2) > 4) {
                     $entriesa .= $entry_special;
-                    $entriesa .= "<p tabindex = '0' role = 'button' aria-label='Display all entries in this section'   
+                    $entriesa .= "<p tabindex = '0' role = 'button' aria-label='Display all entries in this section'
                                     onclick = 'togglesubdiv(\"$section_id\", event)' onkeydown = 'togglesubdiv(\"$section_id, event)'style='cursor: pointer;'>
-                                    More <img src = 'img/caret-bottom.svg' alt='caret-bottom symbol'>
+                                    More <img src = '../council_shared_code/img/caret-bottom.svg' alt='caret-bottom symbol'>
                               </p>
                               </div>";
                 } else {
@@ -192,9 +223,9 @@ if ($helper_type == "build_sections_view_table") {
             $entriesb .= $entry_standard;
         }
 
-        $entriesb .= "<p tabindex = '0'  role = 'button' aria-label='Display just the first four entries in this section'  
+        $entriesb .= "<p tabindex = '0'  role = 'button' aria-label='Display just the first four entries in this section'
                         onclick = 'togglesubdiv(\"$section_id\", event)' onkeydown = 'togglesubdiv(\"$section_id\", event)'style='cursor: pointer;'>
-                        Less <img src = 'img/caret-top.svg' alt='caret-top symbol'>
+                        Less <img src = '../council_shared_code/img/caret-top.svg' alt='caret-top symbol'>
                     </p>
                     </div>";
 

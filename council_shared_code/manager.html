@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Home page for Parish Council System : About, Minutes, Agendas, Policies, Financial Statements, Sundry">
+    <title>Home - Parish Councils</title>
+    <meta name="keywords" content="About, minutes, agendas, policies, financial statements, sundry">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap includes from https://www.w3schools.com/bootstrap4/tryit.asp?filename=trybs_carousel2 -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- sortableJS styles - see https://www.solodev.com/blog/web-design/how-to-create-sortable-lists-with-sortablejs.stml-->
+    <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
+    <!-- code for datepicker -->
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <style>
+        div.ui-datepicker {
+            font-size: 12px;
+            background: gainsboro;
+            border: 1px solid #555;
+            color: blue;
+        }
+
+        /* current input value background color */
+        .ui-datepicker-current-day {
+            background: #83C948
+        }
+
+        /* today's background color */
+        .ui-datepicker-today {
+            background: #83C948
+        }
+
+        #ui-datepicker-div {
+            z-index: 9999 !important
+        }
+
+        .launchpadlink {
+            width: 5.5em;
+            padding: .5em;
+            color: blue;
+            border: 1px solid black;
+            border-radius: .5em;
+            padding: .5em;
+            display: inline-block;
+            text-decoration: none !important;
+            margin: 1em auto 1em auto;
+        }
+
+        .view {
+            background-color: LAVENDER;
+        }
+
+        .amend {
+            background-color: MEDIUMAQUAMARINE;
+        }
+
+        .configure {
+            background-color: WHEAT;
+        }
+
+        label {
+            font-weight: bold;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <form id='dummyform'>
+        <!-- dummy form used to communicate with php helper functions -->
+    </form>
+
+    <!--  ++++++++++++  Header ++++++++++++++++++++++++++ -->
+
+    <div style='margin: 2vh auto 2vh auto; width: 75%; text-align: center;'>
+        <div style='padding: 2vh; background: white;'>
+            <h2 style="width: 70%; margin: 1vh auto auto auto; padding-top: 1vh; padding-bottom: 1vh; background: Aquamarine;">
+                <span>Management Screen for :</span><br><span id="councilname"></span><span> Parish Council</span>
+            </h2>
+
+            <!--  ++++++++++++  Controls ++++++++++++++++++++++++++ -->
+
+            <table style="width: 70%; margin: 2vh auto 2vh auto; border: 1px solid black; padding: 1.5vh; border-collapse: separate; background: white;">
+                <tr>
+                    <td>
+                        <p id="entriesbutton" class="launchpadlink" style="width: 12em;" title="Add/remove/edit Entries for Sections">
+                            <a onclick="displayEntriesUpdateView(currentSectionId, '');">Manage Entries<br>
+                            </a>
+                            <span id="entriesbuttonpicklist"></span>
+                        </p>
+                    </td>
+                    <td>
+                        <a id="carouselbutton" class="launchpadlink" title="Add/remove/reorder/edit Slides within the Carousel" onclick="anchorTarget = 'carousel'; displayCarouselUpdateView('');">Configure<br>Carousel</a>
+                    </td>
+                    <td>
+                        <a id="sectionsbutton" class="launchpadlink" title="Add/remove/reorder/edit Sections" onclick="anchorTarget = 'sections'; displaySectionsUpdateView('');">Configure<br>Sections</a>
+                    </td>
+                    <td>
+                        <a id="viewbutton" class="launchpadlink" title="Launch the website in a popup"
+                            onclick="popUpWindow = window.open('index.php', 'PC website popup',
+                                               width = ' + (parseInt(window.innerWidth) * 0.9) + ', height = ' + (parseInt(window.innerHeight) * 0.9) + ', left = ' + (parseInt(window.innerWidth) * 0.05) + ', top = ' + (parseInt(window.innerHeight) * 0.1) + ', resizable = 'yes');">
+                            Launch<br>Website</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!--  ++++++++++++  Code for Active Control   ++++++++++++++++++++++++++ -->
+
+    <div id='currentcontrol'>
+    </div>
+
+    <!--  ++++++++++++  Javascript screen management scripts  ++++++++++++++++++++++++++ -->
+
+    <script>
+        var councilId;
+        var councilName;
+
+        window.onload = function() {
+            document.getElementById('councilname').innerHTML = councilName;
+            buildPicklist('startup');
+        }
+
+        var currentSectionId;
+        var currentSectionType;
+
+        function buildPicklist(mode) {
+
+            // Build and display the picklist - and optionally, when mode is set to "startup",
+            // display the "current" section
+
+            var form = document.forms.namedItem("dummyform");
+            var oData = new FormData(form);
+            oData.append("helper_type", "build_section_picklist");
+            var oReq = new XMLHttpRequest();
+            oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
+            oReq.onload = function(oEvent) {
+                if (oReq.status == 200) {
+
+                    var response = oReq.responseText;
+                    if (response.indexOf("%timed_out%") != -1) {
+                        handleTimeout();
+                        return;
+                    }
+                    if (response.indexOf("%failed%") != -1) {
+                        alert(response);
+                    } else {
+                        document.getElementById('entriesbuttonpicklist').innerHTML = response;
+
+                        if (mode == "startup") {
+
+                            // if the picklist is empty - ie the system has still to be initialised
+                            // open the "configure sections" display, otherwise open the "manage entries"
+                            // display, pointing at the first entry in picklist
+
+                            var sectionspicklist = document.getElementById('sectionspicklist');
+                            if (sectionspicklist.options.length > 0) {
+                                currentSectionId = sectionspicklist.options[sectionspicklist.selectedIndex].value;
+                                displayEntriesUpdateView(currentSectionId, '');
+                            } else {
+                                displaySectionsUpdateView('');
+                            }
+                        }
+                    }
+                }
+            };
+            oReq.send(oData);
+        }
+
+        function displayEntriesUpdateView(sectionId, message) {
+
+            var form = document.forms.namedItem("dummyform");
+            var oData = new FormData(form);
+            oData.append("helper_type", "build_entries_update_table");
+            oData.append("section_id", currentSectionId);
+            var oReq = new XMLHttpRequest();
+            oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
+            oReq.onload = function(oEvent) {
+                if (oReq.status == 200) {
+
+                    var response = oReq.responseText;
+                    if (response.indexOf("%timed_out%") != -1) {
+                        handleTimeout();
+                        return;
+                    }
+                    var response = oReq.responseText;
+                    if (response.indexOf("%failed%") != -1) {
+                        alert(response);
+                    } else {
+                        document.getElementById('currentcontrol').innerHTML = response;
+                        displaySuccessMessage(message);
+
+                        currentSectionId = sectionId;
+                        currentSectionType = document.getElementById('currentsectiontype').innerHTML
+                    }
+                }
+            };
+            oReq.send(oData);
+        }
+
+        function insertEntry() {
+
+            if (currentSectionType == "date_title") {
+                var entryDate = document.getElementById("entrydate").value;
+                var entrySuffix = document.getElementById("entrysuffix").value;
+            } else {
+                var entryTitle = document.getElementById("entrytitle").value;
+            }
+
+            var entryFilename = document.getElementById("entryfilename").value;
+            if (!validEntry('insert', currentSectionType, entryDate, entrySuffix, entryTitle, entryFilename))
+                return;
+            var form = document.forms.namedItem('entryform');
+            var oData = new FormData(form);
+            oData.append("helper_type", "insert_entry");
+            oData.append("section_id", currentSectionId);
+            oData.append("section_type", currentSectionType);
+            if (currentSectionType == "date_title") {
+                oData.append("entry_date", document.getElementById("entrydate").value);
+                oData.append("entry_suffix", document.getElementById("entrysuffix").value);
+            } else {
+                oData.append("entry_title", document.getElementById("entrytitle").value);
+            }
+
+            var oReq = new XMLHttpRequest();
+            oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
+            oReq.onload = function(oEvent) {
+                if (oReq.status == 200) {
+
+                    var response = oReq.responseText;
+                    if (response.indexOf("%timed_out%") != -1) {
+                        handleTimeout();
+                        return;
+                    }
+                    var response = oReq.responseText;
+                    if (response.indexOf("%failed%") != -1) {
+                        alert(response);
+                    } else {
+                        if (response.indexOf("Oops") != -1) {
+                            displayFailureMessage(response);
+                        } else {
+                            displayEntriesUpdateView(currentSectionId, "Insert succeeded");
+                        }
+                    }
+                }
+            };
+            oReq.send(oData);
+        }
+
+        function updateEntry(entryIndex) {
+
+            var entryFilename = document.getElementById('entryfilename' + entryIndex).innerHTML;
+            if (currentSectionType == "date_title") {
+                var entryDate = document.getElementById("entrydate" + entryIndex).value;
+                var entrySuffix = document.getElementById("entrysuffix" + entryIndex).value;
+            } else {
+                var entryTitle = document.getElementById("entrytitle" + entryIndex).value;
+            }
+
+            if (!validEntry('update', currentSectionType, entryDate, entrySuffix, entryTitle, entryFilename))
+                return;
+
+            var form = document.forms.namedItem("entryform" + entryIndex);
+            var oData = new FormData(form);
+            oData.append("helper_type", "update_entry");
+            oData.append("entry_index", entryIndex);
+            oData.append("section_id", currentSectionId);
+            oData.append("section_type", currentSectionType);
+            if (currentSectionType == "date_title") {
+                oData.append("entry_date", document.getElementById("entrydate" + entryIndex).value);
+                oData.append("entry_date_old", document.getElementById("entrydate" + entryIndex).placeholder);
+                oData.append("entry_suffix", document.getElementById("entrysuffix" + entryIndex).value);
+                oData.append("entry_suffix_old", document.getElementById("entrysuffix" + entryIndex).placeholder);
+            } else {
+                oData.append("entry_title", document.getElementById("entrytitle" + entryIndex).value);
+                oData.append("entry_title_old", document.getElementById("entrytitle" + entryIndex).placeholder);
+            }
+            var sourceStatus = "source file not provided";
+            if (document.getElementById("entryfilename" + entryIndex).value != '')
+                sourceStatus = "new source file provided";
+            oData.append("source_status", sourceStatus);
+            var oReq = new XMLHttpRequest();
+            oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
+            oReq.onload = function(oEvent) {
+                if (oReq.status == 200) {
+
+                    var response = oReq.responseText;
+                    if (response.indexOf("%timed_out%") != -1) {
+                        handleTimeout();
+                        return;
+                    }
+                    var response = oReq.responseText;
+                    if (response.indexOf("%failed%") != -1) {
+                        alert(response);
+                    } else {
+                        if (response.indexOf("Oops") != -1) {
+                            displayFailureMessage(response);
+                        } else {
+                            displayEntriesUpdateView(currentSectionId, "Update succeded");
+                        }
+                    }
+                }
+            };
+            oReq.send(oData);
+        }
+
+        function validEntry(action, sectionType, entryDate, entrySuffix, entryTitle, entryFilename) {
+
+            // action = "insert" or "update"
+
+            if (sectionType == "date_title") {
+
+                if (entryDate == '') {
+                    displayFailureMessage("Oops - you need to specify an entry date");
+                    return false;
+                }
+
+                var illegalCharacter = checkForImpermissibleCharacter(entrySuffix);
+                if (illegalCharacter != '') {
+                    displayFailureMessage("Oops - character " + illegalCharacter + " is not allowed in Suffix");
+                    return false;
+                }
+
+            } else {
+
+                if (entryTitle == '') {
+                    displayFailureMessage("Oops - you need to specify an entry title");
+                    return false;
+                }
+
+                illegalCharacter = checkForImpermissibleCharacter(entryTitle);
+                if (illegalCharacter != '') {
+                    displayFailureMessage("Oops - character " + illegalCharacter + " is not allowed in Title");
+                    return false;
+                }
+            }
+
+            if (action === "insert" && entryFilename === '') {
+                displayFailureMessage("Oops - you need to specify a filename");
+                return false;
+            }
+            return true;
+        }
+
+        function checkForImpermissibleCharacter(characterString) {
+
+            // check that characterString doesnt contain an _ character or anything that would
+            // be impermissible in a windows or unix filename
+
+            var illegalChar = '';
+            if (characterString.includes('_'))
+                illegalChar = '_';
+            if (characterString.includes('£'))
+                illegalChar = '£';
+            if (characterString.includes('%'))
+                illegalChar = '%';
+            if (characterString.includes('&'))
+                illegalChar = '&';
+            if (characterString.includes('{'))
+                illegalChar = '{';
+            if (characterString.includes('}'))
+                illegalChar = '}';
+            if (characterString.includes('<'))
+                illegalChar = '<';
+            if (characterString.includes('>'))
+                illegalChar = '>';
+            if (characterString.includes('*'))
+                illegalChar = '*';
+            if (characterString.includes('"'))
+                illegalChar = '"';
+            if (characterString.includes("'"))
+                illegalChar = "'";
+            if (characterString.includes('+'))
+                illegalChar = '+';
+            if (characterString.includes('|'))
+                illegalChar = '!';
+            if (characterString.includes('='))
+                illegalChar = '=';
+            return illegalChar;
+        }
+
+        function deleteEntry(entryIndex) {
+
+            var form = document.forms.namedItem("dummyform");
+            var oData = new FormData(form);
+
+            if (currentSectionType === 'date_title') {
+                var entryDate = document.getElementById('entrydate' + entryIndex).placeholder;
+                var entrySuffix = document.getElementById('entrysuffix' + entryIndex).placeholder;
+                var entryTitle = '';
+            } else {
+                var entryTitle = document.getElementById('entrytitle' + entryIndex).placeholder;
+                var entryDate = '';
+                var entrySuffix = '';
+            }
+
+            oData.append("helper_type", "delete_entry");
+            oData.append("section_id", currentSectionId);
+            oData.append("section_type", currentSectionType);
+            oData.append("entry_date", entryDate);
+            oData.append("entry_suffix", entrySuffix);
+            oData.append("entry_title", entryTitle);
+            var oReq = new XMLHttpRequest();
+            oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
+            oReq.onload = function(oEvent) {
+                if (oReq.status == 200) {
+
+                    var response = oReq.responseText;
+                    if (response.indexOf("%timed_out%") != -1) {
+                        handleTimeout();
+                        return;
+                    }
+                    var response = oReq.responseText;
+                    if (response.indexOf("%failed%") != -1) {
+                        alert(response);
+                    } else {
+                        displayEntriesUpdateView(currentSectionId, "Delete succeded");
+                    }
+                }
+            };
+            oReq.send(oData);
+        }
+
+        function displayCarouselUpdateView(message) {
+
+            var form = document.forms.namedItem("dummyform");
+            var oData = new FormData(form);
+            oData.append("helper_type", "build_carousel_update_table");
+            var oReq = new XMLHttpRequest();
+            oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
+            oReq.onload = function(oEvent) {
+                if (oReq.status == 200) {
+
+                    var response = oReq.responseText;
+                    if (response.indexOf("%timed_out%") != -1) {
+                        handleTimeout();
+                        return;
+                    }
+                    var response = oReq.responseText;
+                    if (response.indexOf("%failed%") != -1) {
+                        alert(response);
+                    } else {
+                        document.getElementById('currentcontrol').innerHTML = response;
+                        displaySuccessMessage(message);
+                        new Sortable(slidessortablelist, {
+                            animation: 150,
+                            ghostClass: 'sortable-ghost'
+                        });
+                    }
+                }
+            };
+            oReq.send(oData);
+        }
+
+        function insertSlide() {
+
+            // Note that to get the $_FILES Post data across to helpers we have to use a
+            // real form (ie one deeclared as type POST etc)
+
+            var slideTitle = document.getElementById("slidetitle").value
+
+            var illegalCharacter = checkForImpermissibleCharacter(slideTitle);
+            if (illegalCharacter != '') {
+                displayFailureMessage("Oops - character " + illegalCharacter + " is not allowed in slide title");
+                return false;
+            }
+
+            if (slideTitle == '') {
+                displayFailureMessage("Oops - you need to specify a title");
+                return false;
+            }
+
+            var slideFilename = document.getElementById("slidefilename").value
+
+            if (slideFilename == '') {
+                displayFailureMessage("Oops - you need to specify a filename");
+                return false;
+            }
+
+            var form = document.forms.namedItem('slideform');
+            var oData = new FormData(form);
+            oData.append("helper_type", "insert_slide");
+            oData.append("slide_title", slideTitle);
+            var oReq = new XMLHttpRequest();
+            oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
+            oReq.onload = function(oEvent) {
+                if (oReq.status == 200) {
+
+                    var response = oReq.responseText;
+                    if (response.indexOf("%timed_out%") != -1) {
+                        handleTimeout();
+                        return;
+                    }
+                    var response = oReq.responseText;
+                    if (response.indexOf("%failed%") != -1) {
+                        alert(response);
+                    } else {
+                        if (response.indexOf("Oops") != -1) {
+                            displayFailureMessage(response);
+                        } else {
+                            displayCarouselUpdateView('Insert succeeded');
+                        }
+                    }
+                }
+            };
+            oReq.send(oData);
+        }
+
+        function updateSlide(slideIndex) {
+
+            var slideTitleNew = document.getElementById("slidetitle" + slideIndex).value;
+            var slideTitleOld = document.getElementById("slidetitle" + slideIndex).placeholder;
+
+            var illegalCharacter = checkForImpermissibleCharacter(slideTitleNew);
+            if (illegalCharacter != '') {
+                displayFailureMessage("Oops - character " + illegalCharacter + " is not allowed in slide title");
+                return false;
+            }
+
+            if (slideTitleNew == '') {
+                displayFailureMessage("Oops - slide title cannot be blank");
+                return false;
+            }
+
+            var form = document.forms.namedItem("slideform" + slideIndex);
+            var oData = new FormData(form);
+            oData.append("helper_type", "update_slide");
+            oData.append("slide_index", slideIndex);
+            oData.append("slide_title_new", slideTitleNew);
+            oData.append("slide_title_old", slideTitleOld);
+            var sourceStatus = "source file not provided";
+            if (document.getElementById("slidefilename" + slideIndex).value != '')
+                sourceStatus = "new source file provided";
+            oData.append("source_status", sourceStatus);
+            var oReq = new XMLHttpRequest();
+            oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
+            oReq.onload = function(oEvent) {
+                if (oReq.status == 200) {
+
+                    var response = oReq.responseText;
+                    if (response.indexOf("%timed_out%") != -1) {
+                        handleTimeout();
+                        return;
+                    }
+                    var response = oReq.responseText;
+                    if (response.indexOf("%failed%") != -1) {
+                        alert(response);
+                    } else {
+                        if (response.indexOf("Oops") != -1) {
+                            displayFailureMessage(response);
+                        } else {
+                            displayCarouselUpdateView("Update succeeded");
+                        }
+                    }
+                }
+            };
+            oReq.send(oData);
+        }
+
+        function deleteSlide(slideIndex) {
+
+            var slideTitle = document.getElementById('slidetitle' + slideIndex).value;
+            message = "Do you really want to delete the slide for '";
+            message += slideTitle + "'";
+            if (!confirm(message))
+                return;
+            var form = document.forms.namedItem("slideform" + slideIndex);
+            var oData = new FormData(form);
+            oData.append("helper_type", "delete_slide");
+            oData.append("slide_title", slideTitle);
+            var oReq = new XMLHttpRequest();
+            oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
+            oReq.onload = function(oEvent) {
+                if (oReq.status == 200) {
+
+                    var response = oReq.responseText;
+                    if (response.indexOf("%timed_out%") != -1) {
+                        handleTimeout();
+                        return;
+                    }
+                    var response = oReq.responseText;
+                    if (response.indexOf("%failed%") != -1) {
+                        alert(response);
+                    } else {
+                        if (response.indexOf("Oops") != -1) {
+                            displayFailureMessage(response);
+                        } else {
+                            displayCarouselUpdateView("Delete succeeded");
+                        }
+                    }
+                }
+            };
+            oReq.send(oData);
+        }
+
+        function reorderSlides() {
+
+            var slides = document.getElementsByClassName('slideentry');
+            var sequencedSlides = [];
+            for (var i = 0; i < slides.length; i++) {
+                sequencedSlides[i] = slides[i].innerHTML;
+            }
+            sequencedSlidesJson = JSON.stringify(sequencedSlides);
+
+            var form = document.forms.namedItem("dummyform");
+            var oData = new FormData(form);
+            oData.append("helper_type", "reorder_slides");
+            oData.append("sequenced_slides_json", sequencedSlidesJson);
+            var oReq = new XMLHttpRequest();
+            oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
+            oReq.onload = function(oEvent) {
+                if (oReq.status == 200) {
+
+                    var response = oReq.responseText;
+                    if (response.indexOf("%timed_out%") != -1) {
+                        handleTimeout();
+                        return;
+                    }
+                    var response = oReq.responseText;
+                    if (response.indexOf("%failed%") != -1) {
+                        alert(response);
+                    } else {
+                        displayCarouselUpdateView("Reorder succeeded");
+                    }
+                }
+            };
+            oReq.send(oData);
+        }
+
+        function displaySectionsUpdateView(message) {
+
+            // the message parameter is supplied by the calling routine to
+            // to signal successful outcome of whatever operation preceded
+            // the function call
+
+            var form = document.forms.namedItem("dummyform");
+            var oData = new FormData(form);
+            oData.append("helper_type", "build_sections_update_table");
+            var oReq = new XMLHttpRequest();
+            oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
+            oReq.onload = function(oEvent) {
+                if (oReq.status == 200) {
+
+                    var response = oReq.responseText;
+                    if (response.indexOf("%timed_out%") != -1) {
+                        handleTimeout();
+                        return;
+                    }
+                    var response = oReq.responseText;
+                    if (response.indexOf("%failed%") != -1) {
+                        alert(response);
+                    } else {
+                        document.getElementById('currentcontrol').innerHTML = response;
+                        displaySuccessMessage(message);
+                        new Sortable(sectionssortablelist, {
+                            animation: 150,
+                            ghostClass: 'sortable-ghost'
+                        });
+                    }
+                }
+            };
+            oReq.send(oData);
+        }
+
+        function insertSection() {
+
+            var sectionId = document.getElementById('sectionid').value
+            var illegalCharacter = checkForImpermissibleCharacter(sectionId);
+            if (illegalCharacter != '') {
+                displayFailureMessage("Oops - character " + illegalCharacter + " is not allowed in ssection id");
+                return false;
+            }
+
+            var sectionId = document.getElementById('sectionid').value;
+            if (sectionId == '') {
+                displayFailureMessage("Oops - you need to supply an id tag for the section");
+                return false;
+            }
+
+            var sectionHeader = document.getElementById('sectionheader').value;
+            if (sectionHeader == '') {
+                displayFailureMessage("Oops - you need to supply a header for the section");
+                return false;
+            }
+
+            var form = document.forms.namedItem("dummyform");
+            var oData = new FormData(form);
+            oData.append("helper_type", "insert_section");
+            oData.append("section_id", sectionId);
+            oData.append("section_header", document.getElementById('sectionheader').value);
+            oData.append("section_prefix", document.getElementById('sectionprefix').value);
+            if (document.getElementById('sectiontypedate').checked) {
+                oData.append("section_type", "date_title");
+            } else {
+                oData.append("section_type", "standard_title");
+            }
+
+            var oReq = new XMLHttpRequest();
+            oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
+            oReq.onload = function(oEvent) {
+                if (oReq.status == 200) {
+
+                    var response = oReq.responseText;
+                    if (response.indexOf("%timed_out%") != -1) {
+                        handleTimeout();
+                        return;
+                    }
+                    var response = oReq.responseText;
+                    if (response.indexOf("%failed%") != -1) {
+                        alert(response);
+                    } else {
+                        if (response.indexOf("Oops") != -1) {
+                            displayFailureMessage(response);
+                        } else {
+                            // need to rebuild the picklist and refresh the sections display
+                            buildPicklist('');
+                            displaySectionsUpdateView('Insert succeeded');
+                        }
+                    }
+                }
+            };
+            oReq.send(oData);
+        }
+
+        var saveTypeChanged = false;
+
+        function updateSection(sectionIndex) {
+
+            // the code below is very unsatisfactory but attempts using confirm or popup messages
+            // to display the warning message when the radio button was clicked failed unpredictably -
+            // It seemed (in Chrome at least) that the "toggling" action of the radio buttons was
+            // "eaten" by the function call - but not every time! Mysteriously, only the radio buttons
+            // on the first section displayed seemed to be affected
+
+            message = "Changing the type of this Section will have an effect on the titles ";
+            message += "of any Entries in the section. Changing the type for a standard_title ";
+            message += "section will cause titles for entries for the section ";
+            message += "to be replaced by dummy dates. Changing ";
+            message += "the type for a date_title section will cause the date elements of the titles ";
+            message += "for its entries to be replaced by a counter. ";
+
+            if (saveTypeChanged) {
+                if (!confirm(message)) {
+                    displaySectionsUpdateView(" ");
+                    return;
+                }
+                saveTypeChanged = false;
+            }
+
+            var form = document.forms.namedItem("dummyform");
+            var oData = new FormData(form);
+            // SectionId may be about to change - note the current and (potentially) new values
+            var oldSectionId = document.getElementById('sectionid' + sectionIndex).placeholder;
+            var newSectionId = document.getElementById('sectionid' + sectionIndex).value;
+            if (document.getElementById('sectiontypedate' + sectionIndex).checked) {
+                var newSectionType = 'date_title';
+            } else {
+                var newSectionType = 'standard_title';
+            }
+
+            oData.append("helper_type", "update_section");
+            oData.append("section_id_old", oldSectionId);
+            oData.append("section_id_new", newSectionId);
+            oData.append("section_header", document.getElementById('sectionheader' + sectionIndex).value);
+            oData.append("section_prefix", document.getElementById('sectionprefix' + sectionIndex).value);
+            oData.append("section_type_new", newSectionType);
+
+            var oReq = new XMLHttpRequest();
+            oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
+            oReq.onload = function(oEvent) {
+                if (oReq.status == 200) {
+
+                    var response = oReq.responseText;
+                    if (response.indexOf("%timed_out%") != -1) {
+                        handleTimeout();
+                        return;
+                    }
+                    var response = oReq.responseText;
+                    if (response.indexOf("%failed%") != -1) {
+                        alert(response);
+                    } else {
+                        if (response.indexOf("Oops") != -1) {
+                            displayFailureMessage(response);
+                        } else {
+                            // if we've just renamed the section update the picklist
+                            if (oldSectionId != newSectionId) {
+                                currentSectionId = newSectionId;
+                            }
+                            buildPicklist('');
+                            displaySectionsUpdateView("Update succeeded");
+                        }
+                    }
+                }
+            };
+            oReq.send(oData);
+        }
+
+        function deleteSection(sectionIndex) {
+
+            var sectionId = document.getElementById("section" + sectionIndex).innerHTML;
+
+            message = "Do you really want to delete section " + sectionId + ". ";
+            message += "Entry files will also be deleted. ";
+            if (!confirm(message))
+                return;
+            var form = document.forms.namedItem("dummyform");
+            var oData = new FormData(form);
+            oData.append("helper_type", "delete_section");
+            oData.append("section_id", sectionId);
+            var oReq = new XMLHttpRequest();
+            oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
+            oReq.onload = function(oEvent) {
+                if (oReq.status == 200) {
+
+                    var response = oReq.responseText;
+                    if (response.indexOf("%timed_out%") != -1) {
+                        handleTimeout();
+                        return;
+                    }
+                    var response = oReq.responseText;
+                    if (response.indexOf("%failed%") != -1) {
+                        alert(response);
+                    } else {
+                        if (response.indexOf("Oops") != -1) {
+                            displayFailureMessage(response);
+                        } else {
+                            buildPicklist('');
+                            displaySectionsUpdateView("Deletion succeeded");
+                        }
+                    }
+                }
+            };
+            oReq.send(oData);
+        }
+
+        function reorderSections() {
+
+            var sections = document.getElementsByClassName('sectionentry');
+            var sequencedSections = [];
+            for (var i = 0; i < sections.length; i++) {
+                sequencedSections[i] = sections[i].innerHTML;
+            }
+            sequencedSectionsJson = JSON.stringify(sequencedSections);
+
+            var form = document.forms.namedItem("dummyform");
+            var oData = new FormData(form);
+            oData.append("helper_type", "reorder_sections");
+            oData.append("sequenced_sections_json", sequencedSectionsJson);
+            var oReq = new XMLHttpRequest();
+            oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
+            oReq.onload = function(oEvent) {
+                if (oReq.status == 200) {
+
+                    var response = oReq.responseText;
+                    if (response.indexOf("%timed_out%") != -1) {
+                        handleTimeout();
+                        return;
+                    }
+                    var response = oReq.responseText;
+                    if (response.indexOf("%failed%") != -1) {
+                        alert(response);
+                    } else {
+                        displaySectionsUpdateView("Reorder succeded");
+                    }
+                }
+            };
+            oReq.send(oData);
+        }
+
+        /////  service scripts ///////////////////
+
+        var anchorTarget;
+
+        function clearMessageArea() {
+
+            document.getElementById('messagearea').innerHTML = '';
+        }
+
+        function displaySuccessMessage(messageContent) {
+
+            document.getElementById('messagearea').innerHTML = messageContent;
+            document.getElementById('messagearea').style.color = 'blue';
+        }
+
+        function displayFailureMessage(messageContent) {
+
+            document.getElementById('messagearea').innerHTML = messageContent;
+            document.getElementById('messagearea').style.color = 'red';
+        }
+
+        function openFile(filename) {
+
+            // Chrome won't let us connect to local resources so to provide a stopgap for testing
+            // we link to server resources. All that's different between local and live running is
+            // the form of the hreflink Add a "time" parameter to force reload
+
+            dateObject = new Date();
+            currentTime = dateObject.getTime();
+            var hreflink = 'entries/' + filename + "?" + currentTime;
+            // open links in new window unless this already exists, in which case overwrite
+
+            window.open(hreflink, "milburnpc")
+        }
+
+        function handleTimeout() {
+
+            // An attempt to execute a helper_function has returned a %timed-out% response. This
+            // might be a genuine timeout of the php session record or could be a hacking attempt.
+            // Either way invite the user to login
+            window.location.assign("login.php");
+        }
+
+        function applyDatepicker(elementId) {
+
+            var oldDate = document.getElementById(elementId).placeholder;
+            $('#' + elementId).datepicker();
+            $('#' + elementId).datepicker('option', 'dateFormat', 'yy-mm-dd');
+            $('#' + elementId).datepicker('option', 'changeMonth', true);
+            $('#' + elementId).datepicker('option', 'changeYear', true);
+            $('#' + elementId).datepicker('option', 'yearRange', '1999:c');
+            $('#' + elementId).datepicker()
+                .on('input change', function(e) {
+                    var newDate = document.getElementById(elementId).value;
+                });
+        }
+
+        function togglePrefixStatus(sectionIndex) {
+
+            // if sectiontypedate radio button is checked for the section,
+            // disable the sectionprefix input field and vice-versa
+
+            var sectiontypedate = document.getElementById('sectiontypedate' + sectionIndex);
+            var sectionprefix = document.getElementById('sectionprefix' + sectionIndex);
+            if (sectiontypedate.checked) {
+                sectionprefix.disabled = false;
+            } else {
+                sectionprefix.disabled = true;
+                sectionprefix.value = '';
+            }
+        }
+    </script>
+    <script id="configscript" src="config.js" type="text/javascript"></script>
+
+</body>
+
+</html>
