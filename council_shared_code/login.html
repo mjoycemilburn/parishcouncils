@@ -100,12 +100,12 @@
                             loginpanelmessage.style.display = "block";
                             loginpanelmessage.style.color = "red";
                         } else {
-                            var councilId = response;
+                            currentURL = window.location.href;
+                            // remove the "/login.php" from the end
+                            var urlLength = currentURL.length;
+                            var modifiedURL = currentURL.substr(0, urlLength - 10);
 
-                            // add dummy version number to ensure page is refreshed
-                            dateObject = new Date();
-                            currentTime = dateObject.getTime();
-                            window.location.assign("http://localhost:8000/council_a/manager.php");
+                            window.location.assign(modifiedURL + "/manager.php");
                         }
                     }
                 }

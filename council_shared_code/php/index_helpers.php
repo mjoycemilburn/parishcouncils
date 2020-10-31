@@ -22,15 +22,6 @@ require('../includes/council_functions.php');
 
 date_default_timezone_set('Europe/London');
 
-// check logged_in
-
-session_start();
-
-if (!isset($_SESSION['council_id_for_logged_in_user'])) {
-    echo "%timed_out%";
-    exit(0);
-}
-
 // connect to the parishcouncils database
 
 connect_to_database();
