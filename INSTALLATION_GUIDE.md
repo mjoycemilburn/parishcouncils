@@ -4,12 +4,12 @@ In order to install the software from this repository and create a demo website 
 
 1. Having opened the ISP account with a master url, create an "addon url" for council_a
 
-2. Copy the council_a and council_shared_code folders into public_html for the master url
+2. Copy the council_a and council_shared_code folders from the repository into public_html for the master url
 
-3. Create a database called parishcouncildsb and initialise this with the script contained in demo_database_script.sql
+3. Create a database called parishcouncilsdb and initialise this with the script contained in demo_database_script.sql
 
 4. Copy the connect and disconnect.php files from the repository into the root folder for the url and initialise these with the keys for the database you have just created
 
-5. You should now be able to able to view the demo website for council_a by running url http://council_a and you should be able to run the maintenance system for its entries in the shared database by running url http://council_a/manager.php
+5. You should now be able to able to view the demo website for council_a by running url http://council_a and you should be able to enter the maintenance system for its entries in the shared database by running url http://council_a/manager.php
 
-It is assumed that the addition of further councils to the system will be handled in a similar adhoc way - the exact nature of the coordinating arrangement will vary. At present, for example, the only way in which new access rights can be added and old ones changed is by direct manipulation of the users table in the database by means of the phpMyAdmin package. It shouldn't be too difficult to add further facilities in this area if it was felt that this were worthwhile
+It is assumed that the addition of further councils to the system will be handled in a similar ad-hoc way - the exact nature of arrangements in this area are likely to vary considerably. At present, for example, the only way in which new access rights can be added and old ones changed is by direct manipulation of the users table in the database using the phpMyAdmin package (or similar). For the present this aspect of the application is not addressed. It shouldn't be too difficult to provide more advanced facilities if this is felt worthwhile.

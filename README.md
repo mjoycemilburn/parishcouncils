@@ -1,6 +1,6 @@
-The ***parishcouncils*** system provides a mechanism whereby a group of Parish Councils (or an umbrella organisation providing Councils with common service) may join forces to deliver website facilities to meet their statutory obligations.
+The ***parishcouncils*** system provides a mechanism whereby a group of Parish Councils (or an umbrella organisation providing Councils with common services) may join forces to deliver website facilities to meet their statutory obligations.
 
-The motivation for the development is described in ***parishcouncil***, an earlier iteration of the concept. The parishcoucil*** system was aimed at individual councils who wanted a lightweight design that minimised the tasks of system implementation. The new ***parishcouncils*** system, by contrast:
+The motives for the development are described in ***parishcouncil***, an earlier iteration of the concept. The parishcoucil*** system was aimed at individual councils who wanted a lightweight design that minimised the tasks of system-implementation. The new ***parishcouncils*** system, by contrast:
 1. operates on a more substantial technical platform (it uses a mySQL database) and
 2. enables participating councils to take advantage of the economic and administrative benefits of working cooperatively.
 
@@ -10,8 +10,8 @@ The organising body has the following responsibilities:
 
 1. Opening an ISP account and acquiring the initial master url
 2. Installing the ***parishcoucils** system (see INSTALLATION_GUIDE)
-3. Acquiring an "additional url" to the master url for each participating council and configuring a corresponding  sub-folder on the ISP
-4.  Creating and maintaining user_id/password rights to protect the council's use of the maintenance system.
+3. Acquiring an "additional url" for each participating council and adding a corresponding  sub-folder to the initial master url on the ISP
+4.  Creating and maintaining user_id/password rights to protect each council's use of the maintenance system.
 
 Each council will now have its own version of the master council website and will be able to personalise this and maintain it into the future.
 
