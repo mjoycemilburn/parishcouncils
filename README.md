@@ -2,7 +2,7 @@ The ***parishcouncils*** system provides a mechanism whereby a group of Parish C
 
 The motivation for the development is described in ***parishcouncil***, an earlier iteration of the concept. The parishcoucil*** system was aimed at individual councils who wanted a lightweight design that minimised the tasks of system implementation. The new ***parishcouncils*** system, by contrast:
 1. operates on a more substantial technical platform (it uses a mySQL database) and
-2.enables participating councils to take advantage of the economic and administrative benefits of working cooperatively.
+2. enables participating councils to take advantage of the economic and administrative benefits of working cooperatively.
 
 In this version of the system, councils still have their own url (and are thus indexed by search engines and have their own family of email addresses). However these urls are purchased as "additional urls" for a master url managed by the organising body, thereby minimising both cost and administrative inconvenience.
 
