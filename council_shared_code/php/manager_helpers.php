@@ -80,7 +80,7 @@ if ($helper_type == "build_section_picklist") {
             FROM
                 sections
             WHERE
-                $council_id = '$council_id';";
+                council_id = '$council_id';";
 
     $result = sql_result_for_location($sql, 1);
 
