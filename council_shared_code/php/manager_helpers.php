@@ -49,16 +49,6 @@ require('../includes/council_functions.php');
 
 $page_title = 'manager_helpers';
 
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
-header("Access-Control-Allow-Headers: Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, If-Modified-Since, X-File-Name, Cache-Control");
-header("Access-Control-Max-Age: 18000");
-
-// set headers to NOT cache the page
-header("Cache-Control: no-cache, must-revalidate"); //HTTP 1.1
-header("Pragma: no-cache"); //HTTP 1.0
-header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
-
 date_default_timezone_set('Europe/London');
 
 // check logged_in
