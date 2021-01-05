@@ -14,4 +14,4 @@ The organising body has the following responsibilities:
 4.  Creating and maintaining user_id/password rights to protect each council's use of the maintenance system.
 
 Each council will now have its own version of the master council website and will be able to personalise this and maintain it into the future.
-A sample website produced by the framework can be seen at https://ngatesystems.com/parishcouncils/index.html.  A description of the configuration and maintenance system can be seen at https://mjoycemilburn.github.io/parishcouncil/
+A sample website produced by the framework can be seen at https://ngatesystems.com/parishcouncils/index.html.  A description of the configuration and maintenance interface (which is common to both the parishcouncil and parishcouncils systems) can be seen at https://mjoycemilburn.github.io/parishcouncil/
