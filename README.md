@@ -1,15 +1,15 @@
-The ***parishcouncils*** system provides a mechanism whereby a group of Parish Councils (or an umbrella organisation providing Councils with common services) may join forces to deliver website facilities to meet their statutory obligations.
+The ***parishcouncils*** system provides a mechanism to enable a group of Parish Councils (or an umbrella organisation providing Councils with common services) to join forces to deliver website facilities to meet their statutory obligations.
 
-The motives for the development are described in ***parishcouncil***, an earlier iteration of the concept. The parishcoucil*** system was aimed at individual councils who wanted a lightweight design that minimised the tasks of system-implementation. The new ***parishcouncils*** system, by contrast:
-1. operates on a more substantial technical platform (it uses a mySQL database) and
+The motives for the development are described in ***parishcouncil***, an earlier iteration of the concept. The  ***parishcouncil*** system was aimed at individual councils that wanted a lightweight design that minimised the tasks of system-implementation. The new ***parishcouncils*** system, by contrast:
+1. uses a more reliable technical platform (a server-based database rather than local files) and
 2. enables participating councils to take advantage of the economic and administrative benefits of working cooperatively.
 
-In this version of the system, councils still have their own url (and are thus indexed by search engines and have their own family of email addresses). However these urls are purchased as "additional urls" for a master url managed by the organising body, thereby minimising both cost and administrative inconvenience.
+In this version of the system, councils still have their own url (and are thus indexed by search engines and have their own family of email addresses). However these urls are purchased as "additional urls" to a master url managed by the organising body, thereby minimising both cost and administrative inconvenience.
 
 The organising body has the following responsibilities:
 
 1. Opening an ISP account and acquiring the initial master url
-2. Installing the ***parishcoucils** system (see INSTALLATION_GUIDE)
+2. Installing the ***parishcouncils** system (see INSTALLATION_GUIDE)
 3. Acquiring an "additional url" for each participating council and adding a corresponding  sub-folder to the initial master url on the ISP
 4.  Creating and maintaining user_id/password rights to protect each council's use of the maintenance system.
 
