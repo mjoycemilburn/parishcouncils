@@ -148,8 +148,8 @@
                 if (oReq.status == 200) {
 
                     var response = oReq.responseText;
-                    if (response.indexOf("%timed_out%") != -1) {
-                        handleTimeout();
+                    if (response.indexOf("%timed-out%") != -1) {
+                        dealWithTimeout();
                         return;
                     }
                     if (response.indexOf("%failed%") != -1) {
@@ -189,8 +189,8 @@
                 if (oReq.status == 200) {
 
                     var response = oReq.responseText;
-                    if (response.indexOf("%timed_out%") != -1) {
-                        handleTimeout();
+                    if (response.indexOf("%timed-out%") != -1) {
+                        dealWithTimeout();
                         return;
                     }
                     var response = oReq.responseText;
@@ -238,8 +238,8 @@
                 if (oReq.status == 200) {
 
                     var response = oReq.responseText;
-                    if (response.indexOf("%timed_out%") != -1) {
-                        handleTimeout();
+                    if (response.indexOf("%timed-out%") != -1) {
+                        dealWithTimeout();
                         return;
                     }
                     var response = oReq.responseText;
@@ -295,8 +295,8 @@
                 if (oReq.status == 200) {
 
                     var response = oReq.responseText;
-                    if (response.indexOf("%timed_out%") != -1) {
-                        handleTimeout();
+                    if (response.indexOf("%timed-out%") != -1) {
+                        dealWithTimeout();
                         return;
                     }
                     var response = oReq.responseText;
@@ -416,8 +416,8 @@
                 if (oReq.status == 200) {
 
                     var response = oReq.responseText;
-                    if (response.indexOf("%timed_out%") != -1) {
-                        handleTimeout();
+                    if (response.indexOf("%timed-out%") != -1) {
+                        dealWithTimeout();
                         return;
                     }
                     var response = oReq.responseText;
@@ -442,8 +442,8 @@
                 if (oReq.status == 200) {
 
                     var response = oReq.responseText;
-                    if (response.indexOf("%timed_out%") != -1) {
-                        handleTimeout();
+                    if (response.indexOf("%timed-out%") != -1) {
+                        dealWithTimeout();
                         return;
                     }
                     var response = oReq.responseText;
@@ -497,8 +497,8 @@
                 if (oReq.status == 200) {
 
                     var response = oReq.responseText;
-                    if (response.indexOf("%timed_out%") != -1) {
-                        handleTimeout();
+                    if (response.indexOf("%timed-out%") != -1) {
+                        dealWithTimeout();
                         return;
                     }
                     var response = oReq.responseText;
@@ -548,8 +548,8 @@
                 if (oReq.status == 200) {
 
                     var response = oReq.responseText;
-                    if (response.indexOf("%timed_out%") != -1) {
-                        handleTimeout();
+                    if (response.indexOf("%timed-out%") != -1) {
+                        dealWithTimeout();
                         return;
                     }
                     var response = oReq.responseText;
@@ -584,8 +584,8 @@
                 if (oReq.status == 200) {
 
                     var response = oReq.responseText;
-                    if (response.indexOf("%timed_out%") != -1) {
-                        handleTimeout();
+                    if (response.indexOf("%timed-out%") != -1) {
+                        dealWithTimeout();
                         return;
                     }
                     var response = oReq.responseText;
@@ -622,8 +622,8 @@
                 if (oReq.status == 200) {
 
                     var response = oReq.responseText;
-                    if (response.indexOf("%timed_out%") != -1) {
-                        handleTimeout();
+                    if (response.indexOf("%timed-out%") != -1) {
+                        dealWithTimeout();
                         return;
                     }
                     var response = oReq.responseText;
@@ -652,8 +652,8 @@
                 if (oReq.status == 200) {
 
                     var response = oReq.responseText;
-                    if (response.indexOf("%timed_out%") != -1) {
-                        handleTimeout();
+                    if (response.indexOf("%timed-out%") != -1) {
+                        dealWithTimeout();
                         return;
                     }
                     var response = oReq.responseText;
@@ -711,8 +711,8 @@
                 if (oReq.status == 200) {
 
                     var response = oReq.responseText;
-                    if (response.indexOf("%timed_out%") != -1) {
-                        handleTimeout();
+                    if (response.indexOf("%timed-out%") != -1) {
+                        dealWithTimeout();
                         return;
                     }
                     var response = oReq.responseText;
@@ -781,8 +781,8 @@
                 if (oReq.status == 200) {
 
                     var response = oReq.responseText;
-                    if (response.indexOf("%timed_out%") != -1) {
-                        handleTimeout();
+                    if (response.indexOf("%timed-out%") != -1) {
+                        dealWithTimeout();
                         return;
                     }
                     var response = oReq.responseText;
@@ -823,8 +823,8 @@
                 if (oReq.status == 200) {
 
                     var response = oReq.responseText;
-                    if (response.indexOf("%timed_out%") != -1) {
-                        handleTimeout();
+                    if (response.indexOf("%timed-out%") != -1) {
+                        dealWithTimeout();
                         return;
                     }
                     var response = oReq.responseText;
@@ -862,8 +862,8 @@
                 if (oReq.status == 200) {
 
                     var response = oReq.responseText;
-                    if (response.indexOf("%timed_out%") != -1) {
-                        handleTimeout();
+                    if (response.indexOf("%timed-out%") != -1) {
+                        dealWithTimeout();
                         return;
                     }
                     var response = oReq.responseText;
@@ -912,7 +912,7 @@
             window.open(hreflink, "milburnpc")
         }
 
-        function handleTimeout() {
+        function dealWithTimeout() {
 
             // An attempt to execute a helper_function has returned a %timed-out% response. This
             // might be a genuine timeout of the php session record or could be a hacking attempt.

@@ -1,4 +1,4 @@
-The ***parishcouncils*** system provides a mechanism to enable a group of Parish Councils (or an umbrella organisation providing Councils with common services) to join forces to deliver website facilities to meet their statutory obligations.
+The ***parishcouncils*** system provides a mechanism that enables a group of Parish Councils (or an umbrella organisation providing Councils with common services) to join forces to deliver website facilities to meet their statutory obligations.
 
 The motives for the development are described in ***parishcouncil***, an earlier iteration of the concept. The  ***parishcouncil*** system was aimed at individual councils that wanted a lightweight design that minimised the tasks of system-implementation. The new ***parishcouncils*** system, by contrast:
 1. uses a more reliable technical platform (a server-based database rather than local files) and
@@ -9,9 +9,9 @@ In this version of the system, councils still have their own url (and are thus i
 The organising body has the following responsibilities:
 
 1. Opening an ISP account and acquiring the initial master url
-2. Installing the ***parishcouncils** system (see INSTALLATION_GUIDE)
+2. Installing the **parishcouncils** system (see INSTALLATION_GUIDE)
 3. Acquiring an "additional url" for each participating council and adding a corresponding  sub-folder to the initial master url on the ISP
 4.  Creating and maintaining user_id/password rights to protect each council's use of the maintenance system.
 
 Each council will now have its own version of the master council website and will be able to personalise this and maintain it into the future.
-A sample website produced by the framework can be seen at https://ngatesystems.com/parishcouncils/index.html.  A description of the configuration and maintenance interface (which is common to both the parishcouncil and parishcouncils systems) can be seen at https://mjoycemilburn.github.io/parishcouncil/
+A sample website produced by the framework can be seen at https://ngatesystems.com/parishcouncils/index.html.  A description of the configuration and maintenance interface (which is common to both the parishcouncil and parishcouncils systems) can be seen at https://mjoycemilburn.github.io/parishcouncil/. Note, however, that while the **style** of this interface is common to both systems, the comments regarding system-integrity at the end of the interface description apply only to the parishcouncil (singular) version. The parishcouncils (plural) version uses database technology throughout. While this means that installation is more complex, system integrity during subsequent operation is assured.

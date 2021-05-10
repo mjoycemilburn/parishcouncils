@@ -56,7 +56,7 @@ date_default_timezone_set('Europe/London');
 session_start();
 
 if (!isset($_SESSION['council_id_for_logged_in_user'])) {
-    echo "%timed_out%";
+    echo "%timed-out%";
     exit(0);
 }
 
