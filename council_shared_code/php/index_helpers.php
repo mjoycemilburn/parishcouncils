@@ -126,7 +126,9 @@ if ($helper_type == "build_sections_view_table") {
                     entries
                 WHERE
                     section_id = '$section_id' AND
-                    council_id = '$council_id';";
+                    council_id = '$council_id'
+                ORDER BY
+                    entry_date DESC;";
 
         $result2 = sql_result_for_location($sql, 4);
 
@@ -223,6 +225,11 @@ if ($helper_type == "build_sections_view_table") {
         $return .= $entriesa;
         $return .= $entriesb;
     }
+
+    
+    $return .= "<p style='text-align: center; font-weight: bold; font-style: italic; margin-top:3vh;'>Website design by : " .
+                    "<a href = 'https://ngatesystems.com'>Ngatesystems.com</a></p>";
+
 
     echo $return;
 }

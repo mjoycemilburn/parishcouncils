@@ -315,6 +315,8 @@ if ($helper_type == "insert_section") {
                 '$section_prefix',
                 '$council_id');";
 
+                error_log($sql);
+
     $result = sql_result_for_location($sql, 4);
 }
 
@@ -969,7 +971,9 @@ if ($helper_type == "build_entries_update_table") {
                 entries
             WHERE
                 section_id = '$section_id' AND
-                council_id ='$council_id';";
+                council_id ='$council_id'
+            ORDER BY
+                entry_date DESC;";
 
     $result = sql_result_for_location($sql, 43);
 

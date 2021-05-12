@@ -12,4 +12,8 @@ In order to install the software from this repository and create a demo website 
 
 5. You should now be able to able to view the demo website for council_a by running url http://council_a and you should be able to enter the maintenance system for its entries in the shared database by running url http://council_a/manager.php
 
+6. To add a new council council_b, say, clone the council_a folder into a new council_b folder and edit the config.js within it to allocate a new council_id and council_name fields. You may also want to replace the standdard favicon,ico file with a version speecific to council_b. 
+
+At this stage running http://council_b should produce a scratch council_b website that just displays the council name - you need to populate the shared database with slides, sections and entries for council_b. Start by adding a user_id and password for council-b to the users table in the shared parishcouncilsdb database. You should now be able to use these credentials to login to http://council_b/manager.php
+
 It is assumed that the addition of further councils to the system will be handled in a similar ad-hoc way - the exact nature of arrangements in this area are likely to vary considerably. At present, for example, the only way in which new access rights can be added and old ones changed is by direct manipulation of the users table in the database using the phpMyAdmin package (or similar). For the present this aspect of the application is not addressed. It shouldn't be too difficult to provide more advanced facilities if this is felt worthwhile.

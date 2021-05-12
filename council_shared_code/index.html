@@ -13,6 +13,11 @@
 
     <!-- open-iconic-bootstrap (icon set for bootstrap) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" integrity="sha256-BJ/G+e+y7bQdrYkS2RBTyNfBHpA9IuGaPmf9htub5MQ=" crossorigin="anonymous" />
+    
+    <!-- the usual trick of simply placing a council's favicon in the home folder
+         doesn't work. The link tag below fixes the problem-->
+    <link rel="icon" href="favicon.ico"/>
+
 
     <title>Home - Parish Council Website template</title>
 
@@ -62,13 +67,13 @@
         devices. This is chieved by reducing the width of the site container to just 2/3rd
         of the body width by introducing dummy columns to left and right-->
 
-    <div class="container-fluid" style="background-color: wheat;">
+    <div class="container-fluid" style="background-color: linen;">
         <div class="row">
-            <div class="col-lg-3 col-xs-12" style="min-height: 0;">
+            <div class="col-lg-2 col-xs-12" style="min-height: 0;">
                 <!--    on small (xs-12) screens the empty sidebar column will stack to the top.
             the min-height style over-rides the default 1px min height for a column class-->
             </div>
-            <div class="col-lg-6 col-xs-12" style="background-color: white;">
+            <div class="col-lg-8 col-xs-12" style="background-color: white;">
                 <!--  ++++++++++++  Carousel ++++++++++++++++++++++++++ -->
 
                 <div id="carousel-slides" class="carousel" data-interval="false" style="width: 80%; margin: 2vh auto 0 auto;">
@@ -97,7 +102,7 @@
 
                 <br /><br />
             </div>
-            <div class="col-lg-3 col-xs-12" style="min-height: 0;">
+            <div class="col-lg-2 col-xs-12" style="min-height: 0;">
                 <!-- on small (xs-12) screens the empty sidebar column will stack to the bottom -->
             </div>
         </div>

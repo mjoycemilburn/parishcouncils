@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="description" content="Home page for Parish Council System : About, Minutes, Agendas, Policies, Financial Statements, Sundry">
+    <meta name="description"
+        content="Home page for Parish Councils System : About, Minutes, Agendas, Policies, Financial Statements, Sundry">
     <title>Home - Parish Councils</title>
     <meta name="keywords" content="About, minutes, agendas, policies, financial statements, sundry">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,6 +15,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- the usual trick of simply placing a council's favicon in the home folder
+                 doesn't work. The link tag below fixes the problem-->
+    <link rel="icon" href="favicon.ico" />
 
     <!-- sortableJS styles - see https://www.solodev.com/blog/web-design/how-to-create-sortable-lists-with-sortablejs.stml-->
     <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
@@ -83,26 +88,32 @@
 
     <div style='margin: 2vh auto 2vh auto; width: 75%; text-align: center;'>
         <div style='padding: 2vh; background: white;'>
-            <h2 style="width: 70%; margin: 1vh auto auto auto; padding-top: 1vh; padding-bottom: 1vh; background: Aquamarine;">
+            <h2
+                style="width: 70%; margin: 1vh auto auto auto; padding-top: 1vh; padding-bottom: 1vh; background: Aquamarine;">
                 <span>Management Screen for :</span><br><span id="councilname"></span><span> Parish Council</span>
             </h2>
 
             <!--  ++++++++++++  Controls ++++++++++++++++++++++++++ -->
 
-            <table style="width: 70%; margin: 2vh auto 2vh auto; border: 1px solid black; padding: 1.5vh; border-collapse: separate; background: white;">
+            <table
+                style="width: 70%; margin: 2vh auto 2vh auto; border: 1px solid black; padding: 1.5vh; border-collapse: separate; background: white;">
                 <tr>
                     <td>
-                        <p id="entriesbutton" class="launchpadlink" style="width: 12em;" title="Add/remove/edit Entries for Sections">
+                        <p id="entriesbutton" class="launchpadlink" style="width: 12em;"
+                            title="Add/remove/edit Entries for Sections">
                             <a onclick="displayEntriesUpdateView(currentSectionId, '');">Manage Entries<br>
                             </a>
                             <span id="entriesbuttonpicklist"></span>
                         </p>
                     </td>
                     <td>
-                        <a id="carouselbutton" class="launchpadlink" title="Add/remove/reorder/edit Slides within the Carousel" onclick="anchorTarget = 'carousel'; displayCarouselUpdateView('');">Configure<br>Carousel</a>
+                        <a id="carouselbutton" class="launchpadlink"
+                            title="Add/remove/reorder/edit Slides within the Carousel"
+                            onclick="anchorTarget = 'carousel'; displayCarouselUpdateView('');">Configure<br>Carousel</a>
                     </td>
                     <td>
-                        <a id="sectionsbutton" class="launchpadlink" title="Add/remove/reorder/edit Sections" onclick="anchorTarget = 'sections'; displaySectionsUpdateView('');">Configure<br>Sections</a>
+                        <a id="sectionsbutton" class="launchpadlink" title="Add/remove/reorder/edit Sections"
+                            onclick="anchorTarget = 'sections'; displaySectionsUpdateView('');">Configure<br>Sections</a>
                     </td>
                     <td>
                         <a id="viewbutton" class="launchpadlink" title="Launch the website in a popup"
@@ -126,7 +137,7 @@
         var councilId;
         var councilName;
 
-        window.onload = function() {
+        window.onload = function () {
             document.getElementById('councilname').innerHTML = councilName;
             buildPicklist('startup');
         }
@@ -144,7 +155,7 @@
             oData.append("helper_type", "build_section_picklist");
             var oReq = new XMLHttpRequest();
             oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
-            oReq.onload = function(oEvent) {
+            oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
 
                     var response = oReq.responseText;
@@ -185,7 +196,7 @@
             oData.append("section_id", currentSectionId);
             var oReq = new XMLHttpRequest();
             oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
-            oReq.onload = function(oEvent) {
+            oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
 
                     var response = oReq.responseText;
@@ -234,7 +245,7 @@
 
             var oReq = new XMLHttpRequest();
             oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
-            oReq.onload = function(oEvent) {
+            oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
 
                     var response = oReq.responseText;
@@ -291,7 +302,7 @@
             oData.append("source_status", sourceStatus);
             var oReq = new XMLHttpRequest();
             oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
-            oReq.onload = function(oEvent) {
+            oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
 
                     var response = oReq.responseText;
@@ -412,7 +423,7 @@
             oData.append("entry_title", entryTitle);
             var oReq = new XMLHttpRequest();
             oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
-            oReq.onload = function(oEvent) {
+            oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
 
                     var response = oReq.responseText;
@@ -438,7 +449,7 @@
             oData.append("helper_type", "build_carousel_update_table");
             var oReq = new XMLHttpRequest();
             oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
-            oReq.onload = function(oEvent) {
+            oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
 
                     var response = oReq.responseText;
@@ -493,7 +504,7 @@
             oData.append("slide_title", slideTitle);
             var oReq = new XMLHttpRequest();
             oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
-            oReq.onload = function(oEvent) {
+            oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
 
                     var response = oReq.responseText;
@@ -544,7 +555,7 @@
             oData.append("source_status", sourceStatus);
             var oReq = new XMLHttpRequest();
             oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
-            oReq.onload = function(oEvent) {
+            oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
 
                     var response = oReq.responseText;
@@ -580,7 +591,7 @@
             oData.append("slide_title", slideTitle);
             var oReq = new XMLHttpRequest();
             oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
-            oReq.onload = function(oEvent) {
+            oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
 
                     var response = oReq.responseText;
@@ -618,7 +629,7 @@
             oData.append("sequenced_slides_json", sequencedSlidesJson);
             var oReq = new XMLHttpRequest();
             oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
-            oReq.onload = function(oEvent) {
+            oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
 
                     var response = oReq.responseText;
@@ -648,7 +659,7 @@
             oData.append("helper_type", "build_sections_update_table");
             var oReq = new XMLHttpRequest();
             oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
-            oReq.onload = function(oEvent) {
+            oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
 
                     var response = oReq.responseText;
@@ -707,7 +718,7 @@
 
             var oReq = new XMLHttpRequest();
             oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
-            oReq.onload = function(oEvent) {
+            oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
 
                     var response = oReq.responseText;
@@ -777,7 +788,7 @@
 
             var oReq = new XMLHttpRequest();
             oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
-            oReq.onload = function(oEvent) {
+            oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
 
                     var response = oReq.responseText;
@@ -819,7 +830,7 @@
             oData.append("section_id", sectionId);
             var oReq = new XMLHttpRequest();
             oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
-            oReq.onload = function(oEvent) {
+            oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
 
                     var response = oReq.responseText;
@@ -858,7 +869,7 @@
             oData.append("sequenced_sections_json", sequencedSectionsJson);
             var oReq = new XMLHttpRequest();
             oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
-            oReq.onload = function(oEvent) {
+            oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
 
                     var response = oReq.responseText;
@@ -929,7 +940,7 @@
             $('#' + elementId).datepicker('option', 'changeYear', true);
             $('#' + elementId).datepicker('option', 'yearRange', '1999:c');
             $('#' + elementId).datepicker()
-                .on('input change', function(e) {
+                .on('input change', function (e) {
                     var newDate = document.getElementById(elementId).value;
                 });
         }
