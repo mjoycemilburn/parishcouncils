@@ -87,7 +87,7 @@
             oData.append("council_id", councilId);
             oData.append("council_name", councilName);
             var oReq = new XMLHttpRequest();
-            oReq.open("POST", "php/council_login_helpers.php", true);
+            oReq.open("POST","php/council_login_helpers.php", true);
             oReq.onload = function(oEvent) {
                 if (oReq.status == 200) {
                     var response = oReq.responseText;

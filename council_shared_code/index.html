@@ -6,17 +6,21 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <meta name="description" content="Home page for Milburn Parish Council : About, Minutes, Agendas, Policies, Financial Statements, Sundry" />
+    <meta name="description"
+        content="Home page for Milburn Parish Council : About, Minutes, Agendas, Policies, Financial Statements, Sundry" />
     <meta name="keywords" content="About, minutes, agendas, policies, financial statements, sundry" />
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
 
     <!-- open-iconic-bootstrap (icon set for bootstrap) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" integrity="sha256-BJ/G+e+y7bQdrYkS2RBTyNfBHpA9IuGaPmf9htub5MQ=" crossorigin="anonymous" />
-    
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css"
+        integrity="sha256-BJ/G+e+y7bQdrYkS2RBTyNfBHpA9IuGaPmf9htub5MQ=" crossorigin="anonymous" />
+
     <!-- the usual trick of simply placing a council's favicon in the home folder
          doesn't work. The link tag below fixes the problem-->
-    <link rel="icon" href="favicon.ico"/>
+    <link rel="icon" href="favicon.ico" />
 
 
     <title>Home - Parish Council Website template</title>
@@ -76,21 +80,25 @@
             <div class="col-lg-8 col-xs-12" style="background-color: white;">
                 <!--  ++++++++++++  Carousel ++++++++++++++++++++++++++ -->
 
-                <div id="carousel-slides" class="carousel" data-interval="false" style="width: 80%; margin: 2vh auto 0 auto;">
+                <div id="carousel-slides" class="carousel" data-interval="false"
+                    style="width: 80%; margin: 2vh auto 0 auto;">
                     <!--All pics should be 16/9 ratio width/height- say 1600*900 -->
 
                     <div id="carouselslides" class="carousel-inner"></div>
 
                     <!-- Left and right controls -->
 
-                    <a id="firstfocusablelement" class="carousel-control-prev" href="#carousel-slides" data-slide="prev">
-                        <span class="carousel-control-next-icon oi oi-chevron-left" aria-hidden="true" style="color: red;"></span>
+                    <a id="firstfocusablelement" class="carousel-control-prev" href="#carousel-slides"
+                        data-slide="prev">
+                        <span class="carousel-control-next-icon oi oi-chevron-left" aria-hidden="true"
+                            style="color: red;"></span>
                         <span class="sr-only">Previous</span>
                         <!-- show only on screen readers -->
                     </a>
 
                     <a class="carousel-control-next" href="#carousel-slides" data-slide="next">
-                        <span class="carousel-control-next-icon oi oi-chevron-right" aria-hidden="true" style="color: red;"></span>
+                        <span class="carousel-control-next-icon oi oi-chevron-right" aria-hidden="true"
+                            style="color: red;"></span>
                         <span class="sr-only">Next</span>
                     </a>
                 </div>
@@ -111,12 +119,13 @@
     <script>
         var councilId;
         var councilName;
+        var councilSharedCodeLocation;
 
-        window.onload = function() {
+        window.onload = function () {
             displayCarousel();
             displaySectionsView();
         };
-
+   
         function displayCarousel() {
             var form = document.forms.namedItem("dummyform");
             var oData = new FormData(form);
@@ -124,8 +133,8 @@
             oData.append("council_id", councilId);
             oData.append("council_name", councilName);
             var oReq = new XMLHttpRequest();
-            oReq.open("POST", "../council_shared_code/php/index_helpers.php", true);
-            oReq.onload = function(oEvent) {
+            oReq.open("POST", "php/council_index_helpers.php", true);
+            oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
                     var response = oReq.responseText;
                     if (response.indexOf("%failed%") != -1) {
@@ -144,8 +153,8 @@
             oData.append("helper_type", "build_sections_view_table");
             oData.append("council_id", councilId);
             var oReq = new XMLHttpRequest();
-            oReq.open("POST", "../council_shared_code/php/index_helpers.php", true);
-            oReq.onload = function(oEvent) {
+            oReq.open("POST", "php/council_index_helpers.php", true);
+            oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
                     var response = oReq.responseText;
                     if (response.indexOf("%failed%") != -1) {
@@ -217,9 +226,15 @@
         }
     </script>
     <script id="configscript" src="config.js" type="text/javascript"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>

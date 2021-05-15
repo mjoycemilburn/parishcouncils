@@ -28,7 +28,7 @@
     <style>
         div.ui-datepicker {
             font-size: 12px;
-            background: gainsboro;
+            background: white;
             border: 1px solid #555;
             color: blue;
         }
@@ -50,29 +50,26 @@
         .launchpadlink {
             width: 5.5em;
             padding: .5em;
-            color: blue;
+            background: aquamarine;
+            color: black;
             border: 1px solid black;
             border-radius: .5em;
             padding: .5em;
             display: inline-block;
             text-decoration: none !important;
             margin: 1em auto 1em auto;
+            cursor: pointer;
         }
 
-        .view {
-            background-color: LAVENDER;
+        input {
+            background-color: wheat;
+            padding: .25em;
         }
 
-        .amend {
-            background-color: MEDIUMAQUAMARINE;
-        }
-
-        .configure {
-            background-color: WHEAT;
-        }
-
-        label {
-            font-weight: bold;
+        select {
+            background-color: wheat;
+            margin-top: .5em;
+            border: 2px solid black;
         }
     </style>
 
@@ -89,7 +86,7 @@
     <div style='margin: 2vh auto 2vh auto; width: 75%; text-align: center;'>
         <div style='padding: 2vh; background: white;'>
             <h2
-                style="width: 70%; margin: 1vh auto auto auto; padding-top: 1vh; padding-bottom: 1vh; background: Aquamarine;">
+                style="width: 80%; margin: 1vh auto auto auto; padding-top: 1vh; padding-bottom: 1vh; background: Aquamarine;">
                 <span>Management Screen for :</span><br><span id="councilname"></span><span> Parish Council</span>
             </h2>
 
@@ -144,6 +141,7 @@
 
         var currentSectionId;
         var currentSectionType;
+        var lastSectionIdUsed = localStorage.getItem("lastsectionidused");
 
         function buildPicklist(mode) {
 
@@ -153,8 +151,9 @@
             var form = document.forms.namedItem("dummyform");
             var oData = new FormData(form);
             oData.append("helper_type", "build_section_picklist");
+            oData.append("last_section_id_used", lastSectionIdUsed);
             var oReq = new XMLHttpRequest();
-            oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
+            oReq.open("POST", "php/council_manager_helpers.php", true);
             oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
 
@@ -178,6 +177,7 @@
                             if (sectionspicklist.options.length > 0) {
                                 currentSectionId = sectionspicklist.options[sectionspicklist.selectedIndex].value;
                                 displayEntriesUpdateView(currentSectionId, '');
+                                localStorage.setItem("lastsectionidused", currentSectionId);
                             } else {
                                 displaySectionsUpdateView('');
                             }
@@ -195,7 +195,7 @@
             oData.append("helper_type", "build_entries_update_table");
             oData.append("section_id", currentSectionId);
             var oReq = new XMLHttpRequest();
-            oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
+            oReq.open("POST", "php/council_manager_helpers.php", true);
             oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
 
@@ -213,6 +213,7 @@
 
                         currentSectionId = sectionId;
                         currentSectionType = document.getElementById('currentsectiontype').innerHTML
+                        localStorage.setItem("lastsectionidused", currentSectionId);
                     }
                 }
             };
@@ -244,7 +245,7 @@
             }
 
             var oReq = new XMLHttpRequest();
-            oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
+            oReq.open("POST", "php/council_manager_helpers.php", true);
             oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
 
@@ -301,7 +302,7 @@
                 sourceStatus = "new source file provided";
             oData.append("source_status", sourceStatus);
             var oReq = new XMLHttpRequest();
-            oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
+            oReq.open("POST", "php/council_manager_helpers.php", true);
             oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
 
@@ -422,7 +423,7 @@
             oData.append("entry_suffix", entrySuffix);
             oData.append("entry_title", entryTitle);
             var oReq = new XMLHttpRequest();
-            oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
+            oReq.open("POST", "php/council_manager_helpers.php", true);
             oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
 
@@ -448,7 +449,7 @@
             var oData = new FormData(form);
             oData.append("helper_type", "build_carousel_update_table");
             var oReq = new XMLHttpRequest();
-            oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
+            oReq.open("POST", "php/council_manager_helpers.php", true);
             oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
 
@@ -503,7 +504,7 @@
             oData.append("helper_type", "insert_slide");
             oData.append("slide_title", slideTitle);
             var oReq = new XMLHttpRequest();
-            oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
+            oReq.open("POST", "php/council_manager_helpers.php", true);
             oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
 
@@ -554,7 +555,7 @@
                 sourceStatus = "new source file provided";
             oData.append("source_status", sourceStatus);
             var oReq = new XMLHttpRequest();
-            oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
+            oReq.open("POST", "php/council_manager_helpers.php", true);
             oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
 
@@ -590,7 +591,7 @@
             oData.append("helper_type", "delete_slide");
             oData.append("slide_title", slideTitle);
             var oReq = new XMLHttpRequest();
-            oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
+            oReq.open("POST", "php/council_manager_helpers.php", true);
             oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
 
@@ -628,7 +629,7 @@
             oData.append("helper_type", "reorder_slides");
             oData.append("sequenced_slides_json", sequencedSlidesJson);
             var oReq = new XMLHttpRequest();
-            oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
+            oReq.open("POST", "php/council_manager_helpers.php", true);
             oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
 
@@ -658,7 +659,7 @@
             var oData = new FormData(form);
             oData.append("helper_type", "build_sections_update_table");
             var oReq = new XMLHttpRequest();
-            oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
+            oReq.open("POST", "php/council_manager_helpers.php", true);
             oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
 
@@ -717,7 +718,7 @@
             }
 
             var oReq = new XMLHttpRequest();
-            oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
+            oReq.open("POST", "php/council_manager_helpers.php", true);
             oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
 
@@ -787,7 +788,7 @@
             oData.append("section_type_new", newSectionType);
 
             var oReq = new XMLHttpRequest();
-            oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
+            oReq.open("POST", "php/council_manager_helpers.php", true);
             oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
 
@@ -806,6 +807,7 @@
                             // if we've just renamed the section update the picklist
                             if (oldSectionId != newSectionId) {
                                 currentSectionId = newSectionId;
+                                localStorage.setItem("lastsectionidused", currentSectionId);
                             }
                             buildPicklist('');
                             displaySectionsUpdateView("Update succeeded");
@@ -821,7 +823,7 @@
             var sectionId = document.getElementById("section" + sectionIndex).innerHTML;
 
             message = "Do you really want to delete section " + sectionId + ". ";
-            message += "Entry files will also be deleted. ";
+            message += "This will also delete all the entry files for this section. ";
             if (!confirm(message))
                 return;
             var form = document.forms.namedItem("dummyform");
@@ -829,7 +831,7 @@
             oData.append("helper_type", "delete_section");
             oData.append("section_id", sectionId);
             var oReq = new XMLHttpRequest();
-            oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
+            oReq.open("POST", "php/council_manager_helpers.php", true);
             oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
 
@@ -868,7 +870,7 @@
             oData.append("helper_type", "reorder_sections");
             oData.append("sequenced_sections_json", sequencedSectionsJson);
             var oReq = new XMLHttpRequest();
-            oReq.open("POST", "../council_shared_code/php/manager_helpers.php", true);
+            oReq.open("POST", "php/council_manager_helpers.php", true);
             oReq.onload = function (oEvent) {
                 if (oReq.status == 200) {
 

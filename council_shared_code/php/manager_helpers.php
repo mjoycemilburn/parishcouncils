@@ -8,7 +8,7 @@ header("Access-Control-Max-Age: 18000");
 header("Cache-Control: no-cache, must-revalidate"); //HTTP 1.1
 header("Pragma: no-cache"); //HTTP 1.0
 header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
-require('../includes/council_functions.php');
+require('../../council_shared_code/includes/council_functions.php');
 
 // As directed by helper_type :
 //
@@ -75,6 +75,7 @@ $helper_type = $_POST['helper_type'];
 //////////////////////////////////////////  build_section_picklist ////////////////////////////////////////
 
 if ($helper_type == "build_section_picklist") {
+    $last_section_id_used = $_POST['last_section_id_used'];
     $sql = "SELECT
                 section_id
             FROM
@@ -93,16 +94,30 @@ if ($helper_type == "build_section_picklist") {
             onchange = 'currentSectionId = sectionspicklist.options[sectionspicklist.selectedIndex].value;
                         displayEntriesUpdateView(currentSectionId, \" \");'>";
 
-    $first_row = true;
-    while ($row = mysqli_fetch_array($result)) {
+    // see if the supplied section exists (it may have been deleted!). If so, save its
+    // index, otherwise set the index to 0
+    
+    $index_of_section_to_be_marked_as_selected = 0;
+    $i = 0;
+    foreach ($result as $row) {
         $section_id = $row['section_id'];
+        if ($section_id == $last_section_id_used) {
+            $index_of_section_to_be_marked_as_selected = $i;
+        }
+        $i++;
+    }
 
-        if ($first_row) {
+    //now build the <options> list
+
+    $i = 0;
+    foreach ($result as $row) {
+        $section_id = $row['section_id'];
+        if ($i == $index_of_section_to_be_marked_as_selected) {
             $return .= "<option selected value = '$section_id'>$section_id</option>";
-            $first_row = false;
         } else {
             $return .= "<option value = '$section_id'>$section_id</option>";
         }
+        $i++;
     }
 
     $return .= "</select>";
@@ -114,7 +129,7 @@ if ($helper_type == "build_section_picklist") {
 
 if ($helper_type == "build_sections_update_table") {
 
-// The html for the update and insert sections generated below look a bit complicated
+    // The html for the update and insert sections generated below look a bit complicated
     // because we're using sortableJS to implement the "drag and drop" mechanism used
     // to manage section order. SortableJS is a javascript library downloaded from Github.
     // See https://www.solodev.com/blog/web-design/how-to-create-sortable-lists-with-sortablejs.stml for example
@@ -315,7 +330,7 @@ if ($helper_type == "insert_section") {
                 '$section_prefix',
                 '$council_id');";
 
-                error_log($sql);
+    error_log($sql);
 
     $result = sql_result_for_location($sql, 4);
 }
@@ -939,7 +954,7 @@ if ($helper_type == "build_entries_update_table") {
                         onmousedown='clearMessageArea();'>";
     } else {
         $return .= "
-                    <label for ='entrydate'>&nbsp;&nbsp;Entry Title : </label>
+                    <label for ='entrytitle'>&nbsp;&nbsp;Entry Title : </label>
                     <input type='text' maxlength='40' size='20' id='entrytitle'
                         autocomplete='off' value=''
                         title = 'Enter the title for this entry'
@@ -951,7 +966,7 @@ if ($helper_type == "build_entries_update_table") {
                     <input type='file' id='entryfilename' name='entryfilename'
                         accept='application/pdf'
                         title = 'Select a pdf file for this entry'
-                        onmousedown='clearMessageArea();'>
+                        onmousedown='clearMessageArea();'>&nbsp;&nbsp;&nbsp;
                     <button type='button' id='insertbutton'
                         class='mr-2 btn-sm btn-primary'
                         title='Insert this entry'
@@ -1002,11 +1017,12 @@ if ($helper_type == "build_entries_update_table") {
                         class='btn-sm btn-primary'
                         title='Preview the file currently linked to this entry'
                         onmousedown='clearMessageArea(); openFile(\"$entry_filename\");'>Preview
-                    </button>
-                    <label for ='entrydate$i'>&nbsp;&nbsp;$section_prefix</label>";
+                    </button>";
+
 
         if ($section_type == "date_title") {
             $return .= "
+                    <label for ='entrydate$i'>&nbsp;&nbsp;$section_prefix</label>
                     <input type='text' maxlength='10' size='10' id='entrydate$i'
                         autocomplete='off' value = '$entry_date' placeholder = '$entry_date'
                         title = 'Enter the date for this entry'
@@ -1019,6 +1035,7 @@ if ($helper_type == "build_entries_update_table") {
                         onmousedown='clearMessageArea();'>";
         } else {
             $return .= "
+                    <label for ='entrytitle$i'>&nbsp;&nbsp;Entry Title : </label>
                     <input type='text' maxlength='40' size='20' id='entrytitle$i'
                         autocomplete='off' value = '$entry_title' placeholder = '$entry_title'
                         title = 'Enter the title for this entry'
@@ -1030,7 +1047,7 @@ if ($helper_type == "build_entries_update_table") {
                     <input type='file' id='entryfilename$i' name='entryfilename$i'
                         accept='application/pdf'
                         title = 'Select a pdf file for this entry'
-                        onmousedown='clearMessageArea();'>
+                        onmousedown='clearMessageArea();'>&nbsp;&nbsp;&nbsp;
                     <button type='button'
                         class='mr-2 btn-sm btn-primary'
                         title='Update this entry'

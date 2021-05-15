@@ -1,4 +1,13 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+header("Access-Control-Allow-Headers: Content-Type, Depth, User-Agent, X-File-Size, X-Requested-With, If-Modified-Since, X-File-Name, Cache-Control");
+header("Access-Control-Max-Age: 18000");
+
+// set headers to NOT cache the page
+header("Cache-Control: no-cache, must-revalidate"); //HTTP 1.1
+header("Pragma: no-cache"); //HTTP 1.0
+header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
 
 require('../../council_shared_code/includes/council_functions.php');
 
@@ -7,8 +16,6 @@ require('../../council_shared_code/includes/council_functions.php');
 // 'login'                   -   check the supplied user_id, password and council_id against the
 //                               users table and initialise a session for this subdomain with the
 //                               associated council_id
-//
-// 'change_password'         -   change the password
 //
 
 $page_title = 'council_login_helpers';

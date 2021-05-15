@@ -8,7 +8,8 @@ header("Access-Control-Max-Age: 18000");
 header("Cache-Control: no-cache, must-revalidate"); //HTTP 1.1
 header("Pragma: no-cache"); //HTTP 1.0
 header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
-require('../includes/council_functions.php');
+ 
+require('../../council_shared_code/includes/council_functions.php');
 
 // As directed by helper_type :
 //
@@ -18,13 +19,21 @@ require('../includes/council_functions.php');
 //                                           sections
 //
 
-    $page_title = 'pcouncil_index_helpers';
+$page_title = 'pcouncil_index_helpers';
 
 date_default_timezone_set('Europe/London');
 
 // connect to the parishcouncils database
 
 connect_to_database();
+
+// set location  of council_shared_code
+
+if ($_SERVER['REMOTE_ADDR'] != '127.0.0.1' && $_SERVER['REMOTE_ADDR'] != '::1') {
+    $council_shared_code_location = "https://applebyarchaeology.org.uk/ngatesystems.com/parishcouncils/council_shared_code";
+} else {
+    $council_shared_code_location = "../council_shared_code";
+}
 
 // get helper-request
 
@@ -205,7 +214,7 @@ if ($helper_type == "build_sections_view_table") {
                     $entriesa .= $entry_special;
                     $entriesa .= "<p tabindex = '0' role = 'button' aria-label='Display all entries in this section'
                                     onclick = 'togglesubdiv(\"$section_id\", event)' onkeydown = 'togglesubdiv(\"$section_id, event)'style='cursor: pointer;'>
-                                    More <img src = '../council_shared_code/img/caret-bottom.svg' alt='caret-bottom symbol'>
+                                    More <img src = '" . $council_shared_code_location . "/img/caret-bottom.svg' alt='caret-bottom symbol'>
                               </p>
                               </div>";
                 } else {
@@ -218,7 +227,7 @@ if ($helper_type == "build_sections_view_table") {
 
         $entriesb .= "<p tabindex = '0'  role = 'button' aria-label='Display just the first four entries in this section'
                         onclick = 'togglesubdiv(\"$section_id\", event)' onkeydown = 'togglesubdiv(\"$section_id\", event)'style='cursor: pointer;'>
-                        Less <img src = '../council_shared_code/img/caret-top.svg' alt='caret-top symbol'>
+                        Less <img src = '" . $council_shared_code_location . "/img/caret-top.svg' alt='caret-top symbol'>
                     </p>
                     </div>";
 
