@@ -43,11 +43,11 @@ Clicking the "Manage Entries" button reveals the screen below.
 
 Once the system is up and running, routine maintenance will just consist of the addition of new Entries and so it is the Entries maintenance screen that provides the initial view of the system. Manager.html remembers the last section you were working on and automatically returns to this view on re-entry. To switch to maintenance for a different section, simply select this from the picklist.
 
-For Standard Entry inserts you just need to specify a Title for the entry and select a file for upload. Note that only pdf type files are supported here -they are in any case the most flexible and effective way of communicating information online. Modern browsers all provide built-in support for pdf files and pdf-displays are zoomable.
+For "Standard Entry" inserts you just need to specify a Title for the entry and select a file for upload. Note that only pdf type files are supported here -they are in any case the most flexible and effective way of communicating information online. Modern browsers all provide built-in support for pdf files and pdf-displays are zoomable.
 
 If you want to order standard entries in a particular way, the best way of achieving this is to suffix each entry with a sequence number.
 
-For "Date Entry" inserts, clicking in the title field will reveal a date-picker to allow you to quickly specify the date for the entry in a standard format. For "Date Entry" inserts you can also specify an optional suffix for each individual entry, so that the Minutes Entry for an AGM, for example,  might read "Minutes for : 2020-05-06 (AGM)". In the illustration, the prefix for the section has been specified as "Minutes for : " and the suffix for this particular entry has been declared as "(AGM)".
+For "Date Entry" inserts, clicking in the title field will reveal a date-picker to allow you to quickly specify the date for the entry in a standard format. For "Date Entry" inserts you can also specify an optional suffix for each individual entry, so that the Minutes Entry for an AGM, for example,  might read "Minutes for : 2020-05-06 (AGM)". 
 ### General
 
 Be aware that servers usually impose a timeout period on login sessions (typically 20 minutes). If you leave a session unattended for longer than the timeout  period, you will be asked you to login again before you can continue.
