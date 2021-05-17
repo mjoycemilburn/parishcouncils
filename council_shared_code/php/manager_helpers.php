@@ -978,7 +978,8 @@ if ($helper_type == "build_entries_update_table") {
 
     // Now build "update" rows for each of the entries currently defined for the section
 
-    $sql = "SELECT
+    if ($section_type == "date_title") {
+        $sql = "SELECT
                 entry_title,
                 entry_date,
                 entry_suffix
@@ -989,6 +990,19 @@ if ($helper_type == "build_entries_update_table") {
                 council_id ='$council_id'
             ORDER BY
                 entry_date DESC;";
+    } else {
+        $sql = "SELECT
+                entry_title,
+                entry_date,
+                entry_suffix
+            FROM
+                entries
+            WHERE
+                section_id = '$section_id' AND
+                council_id ='$council_id'
+            ORDER BY
+                entry_title ASC;";
+    }
 
     $result = sql_result_for_location($sql, 43);
 

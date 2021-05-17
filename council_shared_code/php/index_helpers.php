@@ -127,7 +127,20 @@ if ($helper_type == "build_sections_view_table") {
             $width = '60%';
         }
 
-        $sql = "SELECT
+        if ($section_type == "standard_title") {
+            $sql = "SELECT
+                    entry_date,
+                    entry_suffix,
+                    entry_title
+                FROM
+                    entries
+                WHERE
+                    section_id = '$section_id' AND
+                    council_id = '$council_id'
+                ORDER BY
+                    entry_title ASC;";
+        } else {
+            $sql = "SELECT
                     entry_date,
                     entry_suffix,
                     entry_title
@@ -138,6 +151,7 @@ if ($helper_type == "build_sections_view_table") {
                     council_id = '$council_id'
                 ORDER BY
                     entry_date DESC;";
+        }
 
         $result2 = sql_result_for_location($sql, 4);
 
