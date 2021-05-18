@@ -45,7 +45,7 @@ Once the system is up and running, routine maintenance will just consist of the 
 
 For "Standard Entry" inserts you just need to specify a Title for the entry and select a file for upload. Note that only pdf type files are supported here -they are in any case the most flexible and effective way of communicating information online. Modern browsers all provide built-in support for pdf files and pdf-displays are zoomable.
 
-If you want to order standard entries in a particular way, the best way of achieving this is to suffix each entry with a sequence number.
+If you want to order standard entries in a particular way, the best way of achieving this is to prefix each entry with a sequence number.
 
 For "Date Entry" inserts, clicking in the title field will reveal a date-picker to allow you to quickly specify the date for the entry in a standard format. For "Date Entry" inserts you can also specify an optional suffix for each individual entry, so that the Minutes Entry for an AGM, for example,  might read "Minutes for : 2020-05-06 (AGM)". 
 ### General
