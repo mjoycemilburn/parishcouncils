@@ -40,36 +40,44 @@ function sql_result_for_location($sql, $location) {
     return $result;
 }
 
-function unique_entry_key($council_id, $section_id, $section_type, $entry_date, $entry_title) {
+function unique_entry_key($council_id, $section_id, $section_type, $entry_date, $entry_suffix, $entry_title) {
 
     // return true if the key combination $section_id/$entry_date or $section_id/$entry_title is absent
     // from the entries table for the supplied $section_type
 
     if ($section_type === "date_title") {
         $sql = "SELECT
-                    section_id
+                    *
                 FROM entries
                 WHERE
                     council_id = '$council_id' AND
                     section_id = '$section_id' AND
-                    entry_date = '$entry_date';";
+                    entry_date = '$entry_date' AND
+                    entry_suffix = '$entry_suffix';";
     } else {
         $sql = "SELECT
-                     section_id
+                     *
                  FROM entries
                  WHERE
                      council_id = '$council_id' AND
                      section_id = '$section_id' AND
                      entry_title = '$entry_title';";
     }
+    error_log($sql);
 
     $result = sql_result_for_location($sql, 2);
 
     $row = mysqli_fetch_assoc($result);
-    if (mysqli_num_rows($result) >= 1) {
-        return false;
-    } else {
+    $rowcount = mysqli_num_rows($result);
+ 
+    if ($rowcount == 0) {
+           error_log(" count true " . $rowcount);
+
         return true;
+    } else {
+           error_log(" count false " . $rowcount);
+
+        return false;
     }
 }
 

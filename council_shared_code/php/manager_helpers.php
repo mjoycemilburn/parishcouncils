@@ -330,8 +330,6 @@ if ($helper_type == "insert_section") {
                 '$section_prefix',
                 '$council_id');";
 
-    error_log($sql);
-
     $result = sql_result_for_location($sql, 4);
 }
 
@@ -460,7 +458,7 @@ if ($helper_type == "update_section") {
 
                 // ideally we'd blank out the entry_title fields in the entries for this section, but we can't, firstly because
                 // they're a date and secondly because they're a key and therefore need to be unique - rats! They won't
-                // be used though, so add a dummy $key value. Blank the suffices though
+                // be used though, so add a dummy $key value. But blank the suffices.
 
                 $sql = "UPDATE entries SET
                             entry_date  = '$dummy_date',
@@ -495,7 +493,7 @@ if ($helper_type == "update_section") {
 
                 // ideally we'd blank out the entry_date fields in the entries for this section, but we can't, firstly because
                 // they're a date and secondly because they're a key and therefore need to be unique - rats! They won't
-                // be used though, so add a dummy 1970-01-01 (onward) date.Blank the suffices though
+                // be used though, so add a dummy 1970-01-01 (onward) date.But lank the suffices.
 
                 $entry_title_old = $entries[$key]['entry_title'];
 
@@ -989,7 +987,7 @@ if ($helper_type == "build_entries_update_table") {
                 section_id = '$section_id' AND
                 council_id ='$council_id'
             ORDER BY
-                entry_date DESC;";
+                entry_date DESC, entry_suffix ASC;";
     } else {
         $sql = "SELECT
                 entry_title,
@@ -1024,15 +1022,27 @@ if ($helper_type == "build_entries_update_table") {
             $entry_filename = $section_id . "_" . $entry_title . ".pdf";
         }
 
+        // the preview button generated below previously used a onmousedown event
+        // like all the other fields. For some unknown reason, this would occasionally
+        // fail and a second click would be required before the button got the 
+        // message. Replacing onmousedown with onclick seems to have fixed the problem.
+
         $return .= "
             <div class='row justify-content-center pt-2 pb-2' style='background: white;'>
                 <form enctype='multipart/form-data' method='post' name='entryform$i'>
                     <button type='button'
                         class='btn-sm btn-primary'
                         title='Preview the file currently linked to this entry'
-                        onmousedown='clearMessageArea(); openFile(\"$entry_filename\");'>Preview
+                        onclick='clearMessageArea(); openFile(\"$entry_filename\");'>Preview
                     </button>";
 
+
+        // we use placeholders in the entry fields below because this is a convenient
+        // way of getting their old values when we come to generate the sql for a d/b
+        // update.This works pretty well except if the special case of entry_suffix, where,
+        // if you're trying to blank out the field, the placeholder suddenly pops up to
+        // provide a "suggestion" for the now empty field. If you ignore this, the field
+        // is duly blanked when you apply the update, but it creates some confusion
 
         if ($section_type == "date_title") {
             $return .= "
@@ -1084,6 +1094,22 @@ if ($helper_type == "build_entries_update_table") {
 
 //////////////////////////////////////////  insert_entry ////////////////////////////////////////
 
+// In earlier versions of the system, date had to be unique for date-type entries - ie you could
+// only record one meeting per day. In June 2021, this arrangement was relaxed and the suffix for
+// a date-type entry became part of the key. For date-type entries, the database requires
+// unique combinations of:
+//  section_id, entry_date, entry_suffix and council_id
+// and the associated pdf filenames take the form:
+//  [section_id]_[yyyy-mm-dd]_[entry_suffix].pdf
+// for non-date-type the key is
+//  section_id, entry_title and council_id
+// and the associated pdf filenames take the form:
+//  [section_id]_entry_title.pdf
+//
+// Because entry_suffix often takes a null value, it is no longer possible to use entry_suffix as
+// part of the prime key - so we're suddenly short of a unique key. The best way out of this seemed
+// to be to add a new AI "storage_id" field to the database. This seems to work perfectly well.
+
 if ($helper_type == "insert_entry") {
     $section_id = $_POST['section_id'];
     $section_type = $_POST['section_type'];
@@ -1109,12 +1135,12 @@ if ($helper_type == "insert_entry") {
     // check the database to see that the entry key (either section_id/entry_date or section_id/entry_title
     // depending on section_type) is unique
 
-    if (!unique_entry_key($council_id, $section_id, $section_type, $entry_date, $entry_title)) {
+    if (!unique_entry_key($council_id, $section_id, $section_type, $entry_date, $entry_suffix, $entry_title)) {
         if ($section_type === "date_title") {
-            echo "Oops - date needs to be unique for this section";
+            echo "Oops - the combination of date and suffix needs to be unique within this section";
             exit(0);
         } else {
-            echo "Oops - title needs to be unique for this section";
+            echo "Oops - title needs to be unique within this section";
             exit(0);
         }
     }
@@ -1163,33 +1189,30 @@ if ($helper_type == "update_entry") {
         $entry_suffix = $_POST['entry_suffix'];
         $entry_title = '';  // placeholder
         $new_filename = $section_id . "_" . $entry_date . "_" . $entry_suffix;
-        $new_key = $section_id . "_" . $entry_date;
         $entry_date_old = $_POST['entry_date_old'];
         $entry_suffix_old = $_POST['entry_suffix_old'];
         $current_filename = $section_id . "_" . $entry_date_old . "_" . $entry_suffix_old;
-        $current_key = $section_id . "_" . $entry_date_old;
     } else {
         $entry_title = $_POST['entry_title'];
         $entry_date = '1970-01-01'; //placeholder
-        $entry_sufffix = ''; //placeholder
+        $entry_suffix = ''; //placeholder
         $new_filename = $section_id . "_" . $entry_title;
-        $new_key = $section_id . "_" . $entry_title;
         $entry_title_old = $_POST['entry_title_old'];
         $current_filename = $section_id . "_" . $entry_title_old;
-        $current_key = $section_id . "_" . $entry_title_old;
     }
     $source_status = $_POST['source_status'];
 
     $new_filename .= ".pdf";
     $current_filename .= ".pdf";
 
-    // if $new_filename differs from $current_filename then the database keys must have changed, so
-    // check we still have a unique combination
+    // if new filename differs from old filename (but only in this case, since we
+    // may be changing just the associated pdf file), use the filename as a way
+    // of checking that we still have a unique database key
 
-    if ($new_key != $current_key) {
-        if (!unique_entry_key($council_id, $section_id, $section_type, $entry_date, $entry_title)) {
+    if ($new_filename != $current_filename) {
+        if (!unique_entry_key($council_id, $section_id, $section_type, $entry_date, $entry_suffix, $entry_title)) {
             if ($section_type === "date_title") {
-                echo "Oops - an entry already exists for this date";
+                echo "Oops - an entry already exists for this date/suffix combination";
                 exit(0);
             } else {
                 echo "Oops - an entry already exists for this title";
@@ -1210,6 +1233,7 @@ if ($helper_type == "update_entry") {
                     WHERE
                         section_id = '$section_id' AND
                         entry_date = '$entry_date_old' AND
+                        entry_suffix = '$entry_suffix_old' AND
                         council_id = '$council_id';";
     } else {
         $sql = "UPDATE entries
@@ -1220,6 +1244,8 @@ if ($helper_type == "update_entry") {
                         entry_title = '$entry_title_old' AND
                         council_id = '$council_id';";
     }
+
+    error_log($sql);
 
     $result = sql_result_for_location($sql, 49);
 
@@ -1291,11 +1317,18 @@ if ($helper_type === "delete_entry") {
     $result = sql_result_for_location('START TRANSACTION', 48); // sql failure after this point will initiate rollback
 
     if ($section_type === 'date_title') {
-        $sql = "DELETE FROM entries WHERE
+        if ($entry_suffix != '') {
+            $sql = "DELETE FROM entries WHERE
                     section_id = '$section_id' AND
                     entry_date = '$entry_date' AND
                     entry_suffix = '$entry_suffix' AND
                     council_id ='$council_id';";
+        } else {
+            $sql = "DELETE FROM entries WHERE
+                    section_id = '$section_id' AND
+                    entry_date = '$entry_date' AND
+                    council_id ='$council_id';";
+        }
     } else {
         $sql = "DELETE FROM entries WHERE
                     section_id = '$section_id' AND

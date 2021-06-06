@@ -150,7 +150,7 @@ if ($helper_type == "build_sections_view_table") {
                     section_id = '$section_id' AND
                     council_id = '$council_id'
                 ORDER BY
-                    entry_date DESC;";
+                    entry_date DESC, entry_suffix ASC;";
         }
 
         $result2 = sql_result_for_location($sql, 4);

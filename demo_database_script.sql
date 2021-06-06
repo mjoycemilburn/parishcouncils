@@ -53,15 +53,14 @@ INSERT INTO `entries` (`section_id`, `entry_date`, `entry_suffix`, `entry_title`
 -- Table structure for table `sections`
 --
 
-CREATE TABLE `sections` (
+CREATE TABLE `entries` (
   `section_id` varchar(20) NOT NULL,
-  `section_header` varchar(45) DEFAULT NULL,
-  `section_type` varchar(45) DEFAULT NULL,
-  `section_prefix` varchar(45) DEFAULT NULL,
-  `section_sequence_number` int(4) DEFAULT NULL,
-  `council_id` int(4) NOT NULL
+  `entry_date` date NOT NULL,
+  `entry_suffix` varchar(45) DEFAULT NULL,
+  `entry_title` varchar(60) NOT NULL,
+  `council_id` int(4) NOT NULL,
+  `storage_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 --
 -- Dumping data for table `sections`
 --
@@ -119,7 +118,7 @@ INSERT INTO `users` (`user_id`, `password`, `council_id`) VALUES
 -- Indexes for table `entries`
 --
 ALTER TABLE `entries`
-  ADD PRIMARY KEY (`section_id`,`entry_date`,`entry_title`,`council_id`);
+  ADD PRIMARY KEY (`storage_id`);
 
 --
 -- Indexes for table `sections`
@@ -138,6 +137,17 @@ ALTER TABLE `slides`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`user_id`,`council_id`) USING BTREE;
+COMMIT;
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `entries`
+--
+ALTER TABLE `entries`
+  MODIFY `storage_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
