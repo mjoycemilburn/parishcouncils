@@ -228,7 +228,7 @@ if ($helper_type == "build_sections_view_table") {
                     $entriesa .= $entry_special;
                     $entriesa .= "<p tabindex = '0' role = 'button' aria-label='Display all entries in this section'
                                     onclick = 'togglesubdiv(\"$section_id\", event)' onkeydown = 'togglesubdiv(\"$section_id, event)'style='cursor: pointer;'>
-                                    More <img src = '/img/caret-bottom.svg' alt='caret-bottom symbol'>
+                                    More <img src = '" . $council_shared_code_location . "/img/caret-bottom.svg' alt='caret-bottom symbol'>
                               </p>
                               </div>";
                 } else {
@@ -241,7 +241,7 @@ if ($helper_type == "build_sections_view_table") {
 
         $entriesb .= "<p tabindex = '0'  role = 'button' aria-label='Display just the first four entries in this section'
                         onclick = 'togglesubdiv(\"$section_id\", event)' onkeydown = 'togglesubdiv(\"$section_id\", event)'style='cursor: pointer;'>
-                        Less <img src = '/img/caret-top.svg' alt='caret-top symbol'>
+                        Less <img src = '" . $council_shared_code_location . "/img/caret-top.svg' alt='caret-top symbol'>
                     </p>
                     </div>";
 
